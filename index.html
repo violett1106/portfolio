@@ -804,22 +804,26 @@ ul{list-style:none}
 }
 .site-frame-body{
   position:relative;
-  height:560px;
+  height:520px;
   overflow:hidden;
   background:#0f0d13;
 }
 .site-shot{
   display:block;width:100%;height:auto;
-  animation: autoScroll 18s linear 1.2s infinite;
-  transform-origin: top center;
+  transform-origin:top center;
+  will-change:transform;
 }
-.site-shot:hover{
-  animation-play-state: paused;
+.site-shot.scrolling{
+  animation:autoScroll var(--scroll-duration,16s) linear 1s infinite;
 }
-@keyframes autoScroll {
-  0%   { transform: translateY(0); }
-  90%  { transform: translateY(calc(-100% + 560px)); }
-  100% { transform: translateY(calc(-100% + 560px)); }
+.site-shot.scrolling:hover{
+  animation-play-state:paused;
+}
+@keyframes autoScroll{
+  0%  {transform:translateY(0)}
+  88% {transform:translateY(var(--scroll-end,-60%))}
+  95% {transform:translateY(var(--scroll-end,-60%))}
+  100%{transform:translateY(0)}
 }
 .site-shot-missing{
   display:none;
@@ -890,12 +894,6 @@ ul{list-style:none}
 
   .branding-inner{grid-template-columns:1fr;gap:40px}
   .site-frame-body{height:400px}
-  .site-shot{animation-name:autoScrollMobile}
-  @keyframes autoScrollMobile{
-    0%{transform:translateY(0)}
-    90%{transform:translateY(calc(-100% + 400px))}
-    100%{transform:translateY(calc(-100% + 400px))}
-  }
   .vieuro-shots{grid-template-columns:1fr;gap:10px}
   .branding-gallery{grid-template-columns:repeat(3,1fr)}
 
@@ -1190,7 +1188,7 @@ ul{list-style:none}
     <article class="work-item inline"
              data-num="Portfolio Page.2"
              data-title="프리미아키친 맞춤형 신발장 상세페이지"
-             data-images="portfolio_webp_optimized/page2(1).webp,portfolio_webp_optimized/page2(3).webp,portfolio_webp_optimized/page2(4).webp,portfolio_webp_optimized/page2(5).webp,portfolio_webp_optimized/page2(6).webp,portfolio_webp_optimized/page2(7).webp,portfolio_webp_optimized/page2(8).webp">
+             data-images="portfolio_webp_optimized/page21.webp,portfolio_webp_optimized/page22.webp,portfolio_webp_optimized/page23.webp,portfolio_webp_optimized/page24.webp,portfolio_webp_optimized/page25.webp,portfolio_webp_optimized/page26.webp,portfolio_webp_optimized/page27.webp,portfolio_webp_optimized/page28.webp,portfolio_webp_optimized/page29.webp">
       <div class="work-meta reveal">
         <p class="work-num">Portfolio Page.2</p>
         <h2 class="work-title">프리미아키친 &nbsp; 맞춤형 신발장 &nbsp; 상세페이지</h2>
@@ -1230,13 +1228,15 @@ ul{list-style:none}
         <p class="longview-label"><span class="dot"></span>상세페이지 전체 · 스크롤하여 보기</p>
         <div class="work-longview-wrap">
           <div class="work-longview">
-            <img class="lv-img" src="portfolio_webp_optimized/page2(1).webp" alt="프리미아키친 맞춤형 신발장 상세페이지 01" onerror="this.style.display='none'"/>
-            <img class="lv-img" src="portfolio_webp_optimized/page2(3).webp" alt="프리미아키친 맞춤형 신발장 상세페이지 02" onerror="this.style.display='none'"/>
-            <img class="lv-img" src="portfolio_webp_optimized/page2(4).webp" alt="프리미아키친 맞춤형 신발장 상세페이지 03" onerror="this.style.display='none'"/>
-            <img class="lv-img" src="portfolio_webp_optimized/page2(5).webp" alt="프리미아키친 맞춤형 신발장 상세페이지 04" onerror="this.style.display='none'"/>
-            <img class="lv-img" src="portfolio_webp_optimized/page2(6).webp" alt="프리미아키친 맞춤형 신발장 상세페이지 05" onerror="this.style.display='none'"/>
-            <img class="lv-img" src="portfolio_webp_optimized/page2(7).webp" alt="프리미아키친 맞춤형 신발장 상세페이지 06" onerror="this.style.display='none'"/>
-            <img class="lv-img" src="portfolio_webp_optimized/page2(8).webp" alt="프리미아키친 맞춤형 신발장 상세페이지 07" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="portfolio_webp_optimized/page21.webp" alt="프리미아키친 맞춤형 신발장 상세페이지 01" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="portfolio_webp_optimized/page22.webp" alt="프리미아키친 맞춤형 신발장 상세페이지 02" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="portfolio_webp_optimized/page23.webp" alt="프리미아키친 맞춤형 신발장 상세페이지 03" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="portfolio_webp_optimized/page24.webp" alt="프리미아키친 맞춤형 신발장 상세페이지 04" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="portfolio_webp_optimized/page25.webp" alt="프리미아키친 맞춤형 신발장 상세페이지 05" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="portfolio_webp_optimized/page26.webp" alt="프리미아키친 맞춤형 신발장 상세페이지 06" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="portfolio_webp_optimized/page27.webp" alt="프리미아키친 맞춤형 신발장 상세페이지 07" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="portfolio_webp_optimized/page28.webp" alt="프리미아키친 맞춤형 신발장 상세페이지 08" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="portfolio_webp_optimized/page29.webp" alt="프리미아키친 맞춤형 신발장 상세페이지 09" onerror="this.style.display='none'"/>
           </div>
         </div>
       </div>
@@ -1516,6 +1516,41 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && detailModal.classList.contains('open')) closeDetail();
 });
 
+</script>
+
+<script>
+/* =====================================================
+   VIEURO 자동 스크롤 — 이미지 실제 높이 기준으로 동적 계산
+===================================================== */
+(function(){
+  const img  = document.querySelector('.site-shot');
+  const body = document.querySelector('.site-frame-body');
+  if(!img || !body) return;
+
+  function initScroll(){
+    const frameH  = body.clientHeight;          // 보이는 창 높이
+    const imgH    = img.naturalHeight * (body.clientWidth / img.naturalWidth); // 실제 렌더 높이
+    const travel  = imgH - frameH;              // 스크롤해야 할 거리
+
+    if(travel <= 0){
+      // 이미지가 프레임보다 짧으면 프레임을 이미지 높이에 맞춤
+      body.style.height = imgH + 'px';
+      return; // 스크롤 불필요
+    }
+
+    // CSS 변수로 끝점·속도 전달 (1px당 약 0.012초)
+    const duration = Math.round(travel * 0.013 + 4);
+    img.style.setProperty('--scroll-end', '-' + travel + 'px');
+    img.style.setProperty('--scroll-duration', duration + 's');
+    img.classList.add('scrolling');
+  }
+
+  if(img.complete && img.naturalHeight){
+    initScroll();
+  } else {
+    img.addEventListener('load', initScroll);
+  }
+})();
 </script>
 </body>
 </html>
