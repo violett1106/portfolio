@@ -693,24 +693,31 @@ ul{list-style:none}
 }
 .banner-more:hover{border-color:#8B5CF6;color:#8B5CF6}
 
-/* 배너 마소너리 그리드 */
+/* 배너 레이아웃 — 좌텍스트 + 우그리드 */
+#banner .work-layout{
+  display:grid;
+  grid-template-columns:1fr 1.8fr;
+  gap:48px;
+  align-items:start;
+}
 .banner-grid{
-  columns:4;
-  column-gap:8px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
 }
 .bn-item{
-  break-inside:avoid;
-  margin-bottom:8px;
+  aspect-ratio:1/1;
   background:#1e1e1e;
   position:relative;overflow:hidden;cursor:pointer;
-  display:block;
 }
 .bn-item img{
-  display:block;width:100%;height:auto;
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  display:block;
   transition:transform 0.4s;
 }
-.bn-item:hover img{transform:scale(1.03)}
-.bn-item .img-ph{position:relative;aspect-ratio:4/3;}
+.bn-item:hover img{transform:scale(1.04)}
 
 /* =====================================================
    CONTACT / FOOTER
@@ -885,13 +892,14 @@ ul{list-style:none}
   .vieuro-shots{grid-template-columns:1fr;gap:10px}
   .branding-gallery{grid-template-columns:repeat(3,1fr)}
 
-  .banner-grid{columns:3}
+  .banner-grid{grid-template-columns:repeat(3,1fr)}
 }
 
 @media(max-width:600px){
   .section{padding:56px 4%}
   .branding-gallery{grid-template-columns:repeat(2,1fr)}
-  .banner-grid{columns:2}
+  #banner .work-layout{grid-template-columns:1fr}
+  .banner-grid{grid-template-columns:repeat(3,1fr)}
   .skills-grid{gap:14px}
   .history-list li{grid-template-columns:1fr;gap:3px}
 }
@@ -1271,7 +1279,7 @@ ul{list-style:none}
       <a class="site-frame-open" href="https://vieurokorea.com/" target="_blank" rel="noopener noreferrer">열기 ↗</a>
     </div>
     <div class="site-frame-body">
-      <img class="site-shot" src="portfolio_webp_optimized/vieuro_mockup.webp" alt="VIEURO KOREA 홈페이지 메인"
+      <img class="site-shot" src="portfolio_webp_optimized/vieurokorea.com_.png" alt="VIEURO KOREA 홈페이지 메인"
            onerror="this.closest('.site-frame').classList.add('img-missing')"/>
       <div class="site-shot-missing">
         이미지를 찾을 수 없습니다.<br/>
@@ -1282,7 +1290,7 @@ ul{list-style:none}
   </div>
 
   <div class="vieuro-shots">
-    <img src="portfolio_webp_optimized/vieuro_mockup.webp"  alt="VIEURO KOREA 페이지 1" loading="lazy" onerror="this.style.display='none'"/>
+    <img src="portfolio_webp_optimized/vieurokorea.com_.png"  alt="VIEURO KOREA 페이지 1" loading="lazy" onerror="this.style.display='none'"/>
     <img src="portfolio_webp_optimized/vieurokorea.com2.webp" alt="VIEURO KOREA 페이지 2" loading="lazy" onerror="this.style.display='none'"/>
     <img src="portfolio_webp_optimized/vieurokorea.com3.webp" alt="VIEURO KOREA 페이지 3" loading="lazy" onerror="this.style.display='none'"/>
   </div>
@@ -1300,27 +1308,28 @@ ul{list-style:none}
       <span class="label">Banner</span>
     </div>
 
-    <div class="banner-header reveal">
-      <p class="b-sub">Banner Design</p>
-      <h2 class="b-title"><span>메타/이벤트/광고/썸네일 &nbsp;</span>배너 디자인</h2>
-      <p class="b-period">1hour ~ 3hour</p>
-      <p class="b-desc">
-        자사몰 외 각종 오픈몰, 폐쇄몰 및 SNS 메타광고 등<br/>
-        각 브랜드 컨셉과 몰 특성에 맞게 다양한 배너를 기획/디자인했습니다.
-      </p>
-      <a class="banner-more" href="#">+ MORE VIEW</a>
-    </div>
+    <div class="work-layout reveal">
+      <div class="banner-header">
+        <p class="b-sub">Banner Design</p>
+        <h2 class="b-title"><span>메타/이벤트/광고/썸네일 &nbsp;</span>배너 디자인</h2>
+        <p class="b-period">1hour ~ 3hour</p>
+        <p class="b-desc">
+          자사몰 외 각종 오픈몰, 폐쇄몰 및 SNS 메타광고 등<br/>
+          각 브랜드 컨셉과 몰 특성에 맞게 다양한 배너를 기획/디자인했습니다.
+        </p>
+      </div>
 
-    <div class="banner-grid reveal">
-      <div class="bn-item"><img src="portfolio_webp_optimized/bnr(1).jpg" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 01</div></div>
-      <div class="bn-item"><img src="portfolio_webp_optimized/bnr(1).png" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 02</div></div>
-      <div class="bn-item"><img src="portfolio_webp_optimized/bnr(2).jpg" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 03</div></div>
-      <div class="bn-item"><img src="portfolio_webp_optimized/bnr(2).png" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 04</div></div>
-      <div class="bn-item"><img src="portfolio_webp_optimized/bnr(3).jpg" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 05</div></div>
-      <div class="bn-item"><img src="portfolio_webp_optimized/bnr(3).png" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 06</div></div>
-      <div class="bn-item"><img src="portfolio_webp_optimized/bnr(4).jpg" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 07</div></div>
-      <div class="bn-item"><img src="portfolio_webp_optimized/bnr(4).png" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 08</div></div>
-      <div class="bn-item"><img src="portfolio_webp_optimized/bnr(5).png" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 09</div></div>
+      <div class="banner-grid">
+        <div class="bn-item"><img src="portfolio_webp_optimized/bnr_1.png" alt="배너 디자인 01" onerror="this.style.display='none'"/></div>
+        <div class="bn-item"><img src="portfolio_webp_optimized/bnr_2.png" alt="배너 디자인 02" onerror="this.style.display='none'"/></div>
+        <div class="bn-item"><img src="portfolio_webp_optimized/bnr_3.png" alt="배너 디자인 03" onerror="this.style.display='none'"/></div>
+        <div class="bn-item"><img src="portfolio_webp_optimized/bnr_4.png" alt="배너 디자인 04" onerror="this.style.display='none'"/></div>
+        <div class="bn-item"><img src="portfolio_webp_optimized/bnr_5.png" alt="배너 디자인 05" onerror="this.style.display='none'"/></div>
+        <div class="bn-item"><img src="portfolio_webp_optimized/bnr_6.png" alt="배너 디자인 06" onerror="this.style.display='none'"/></div>
+        <div class="bn-item"><img src="portfolio_webp_optimized/bnr_7.jpg" alt="배너 디자인 07" onerror="this.style.display='none'"/></div>
+        <div class="bn-item"><img src="portfolio_webp_optimized/bnr_8.png" alt="배너 디자인 08" onerror="this.style.display='none'"/></div>
+        <div class="bn-item"><img src="portfolio_webp_optimized/bnr_9.png" alt="배너 디자인 09" onerror="this.style.display='none'"/></div>
+      </div>
     </div>
   </section>
 
