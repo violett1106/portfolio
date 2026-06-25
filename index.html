@@ -799,31 +799,39 @@ ul{list-style:none}
 }
 .site-frame-body{
   position:relative;
-  min-height:520px;
-  background:
-    radial-gradient(circle at 30% 25%,rgba(139,92,246,0.10),transparent 55%),
-    linear-gradient(160deg,#16131c,#0f0d13);
+  height:560px;
+  overflow-y:auto;overflow-x:hidden;
+  background:#0f0d13;
+  scrollbar-width:thin;scrollbar-color:#8B5CF6 #1c1820;
 }
-.site-card{
+.site-frame-body::-webkit-scrollbar{width:8px}
+.site-frame-body::-webkit-scrollbar-track{background:#1c1820}
+.site-frame-body::-webkit-scrollbar-thumb{background:#4b3a6b;border-radius:8px}
+.site-frame-body::-webkit-scrollbar-thumb:hover{background:#8B5CF6}
+.site-shot{display:block;width:100%;height:auto}
+.site-shot-missing{
+  display:none;
   position:absolute;inset:0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
-  padding:34px;text-align:center;
+  align-items:center;justify-content:center;flex-direction:column;text-align:center;
+  color:#888;font-size:12px;line-height:2;padding:30px;
 }
-.site-card-logo{width:180px;height:auto;object-fit:contain;margin-bottom:4px}
-.sf-fb-title{font-size:16px;font-weight:700;color:#fff;letter-spacing:.06em}
-.sf-fb-desc{font-size:11px;color:#9a90b0;letter-spacing:.1em;margin-top:-8px}
-.vk-brands{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:340px;margin-top:4px}
-.vk-brands span{
-  font-size:10px;color:#bbb;border:1px solid rgba(255,255,255,.16);
-  border-radius:999px;padding:6px 14px;letter-spacing:.03em;
+.site-shot-missing code{color:#8B5CF6;font-size:11px}
+.site-frame.img-missing .site-shot{display:none}
+.site-frame.img-missing .site-shot-missing{display:flex}
+.site-frame-hint{
+  font-size:9.5px;color:#555;letter-spacing:.1em;text-align:center;
+  padding:8px 0 2px;
 }
-.sf-fb-link{
-  margin-top:10px;
-  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  color:#fff;border:1px solid rgba(255,255,255,.28);padding:11px 24px;border-radius:6px;
-  transition:border-color .3s,color .3s,background .3s;
+/* 추가 캡처 갤러리 */
+.vieuro-shots{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px;
 }
-.sf-fb-link:hover{border-color:#8B5CF6;color:#fff;background:#8B5CF6}
+.vieuro-shots img{
+  width:100%;height:auto;display:block;
+  border:1px solid rgba(255,255,255,.1);border-radius:8px;background:#1a1a1a;
+  transition:transform .4s,border-color .3s;
+}
+.vieuro-shots img:hover{transform:translateY(-3px);border-color:rgba(139,92,246,.5)}
 .site-frame-caption{
   margin-top:14px;font-size:10.5px;color:#666;letter-spacing:.04em;text-align:center;
 }
@@ -869,8 +877,8 @@ ul{list-style:none}
   .work-longview{height:70vh}
 
   .branding-inner{grid-template-columns:1fr;gap:40px}
-  .site-frame-body{min-height:430px}
-  .site-card-logo{width:150px}
+  .site-frame-body{height:400px}
+  .vieuro-shots{grid-template-columns:1fr;gap:10px}
   .branding-gallery{grid-template-columns:repeat(3,1fr)}
 
   .banner-grid{grid-template-columns:repeat(3,1fr)}
@@ -1253,26 +1261,29 @@ ul{list-style:none}
 
       
 <div class="reveal">
-  <div class="site-frame" id="vieuroFrame">
+  <div class="site-frame">
     <div class="site-frame-bar">
       <span class="sf-dot r"></span><span class="sf-dot y"></span><span class="sf-dot g"></span>
       <span class="site-frame-url">vieurokorea.com</span>
       <a class="site-frame-open" href="https://vieurokorea.com/" target="_blank" rel="noopener noreferrer">열기 ↗</a>
     </div>
     <div class="site-frame-body">
-      <div class="site-card">
-        <img class="site-card-logo" src="https://vieurokorea.com/wp-content/uploads/2026/03/web_logo-1.png" alt="VIEURO KOREA"
-             onerror="this.style.display='none'"/>
-        <p class="sf-fb-title">VIEURO KOREA</p>
-        <p class="sf-fb-desc">Premium Materials · Timeless Design</p>
-        <div class="vk-brands">
-          <span>BerryAlloc</span><span>Agglotech</span><span>Anatolia</span>
-          <span>Dewata</span><span>L-light</span><span>I Crolla</span>
-        </div>
-        <a class="sf-fb-link" href="https://vieurokorea.com/" target="_blank" rel="noopener noreferrer">웹사이트 바로가기 ↗</a>
+      <img class="site-shot" src="portfolio_webp_optimized/mainview.png" alt="VIEURO KOREA 홈페이지 메인"
+           onerror="this.closest('.site-frame').classList.add('img-missing')"/>
+      <div class="site-shot-missing">
+        이미지를 찾을 수 없습니다.<br/>
+        <code>index.html</code> 과 같은 위치에<br/><code>portfolio_webp_optimized</code> 폴더가 있어야 해요.
       </div>
     </div>
+    <p class="site-frame-hint">↕ 프레임 안에서 스크롤하여 전체 페이지 보기</p>
   </div>
+
+  <div class="vieuro-shots">
+    <img src="portfolio_webp_optimized/vieurokorea.com.webp"  alt="VIEURO KOREA 페이지 1" loading="lazy"/>
+    <img src="portfolio_webp_optimized/vieurokorea.com2.webp" alt="VIEURO KOREA 페이지 2" loading="lazy"/>
+    <img src="portfolio_webp_optimized/vieurokorea.com3.webp" alt="VIEURO KOREA 페이지 3" loading="lazy"/>
+  </div>
+
   <p class="site-frame-caption">워드프레스 기반 기업 홈페이지 운영 · 콘텐츠/디자인 관리</p>
 </div>
     </div>
