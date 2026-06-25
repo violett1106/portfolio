@@ -693,12 +693,14 @@ ul{list-style:none}
 }
 .banner-more:hover{border-color:#8B5CF6;color:#8B5CF6}
 
-/* 배너 레이아웃 — 좌텍스트 + 우그리드 */
-#banner .work-layout{
+/* 배너 레이아웃 — 좌텍스트 + 우그리드 (다른 상세페이지 work-item과 동일한 1fr 1fr 비율) */
+#banner .work-item{
   display:grid;
-  grid-template-columns:1fr 1.8fr;
-  gap:48px;
+  grid-template-columns:1fr 1fr;
+  gap:70px;
   align-items:start;
+  padding:0;
+  border-bottom:none;
 }
 .banner-grid{
   display:grid;
@@ -898,7 +900,7 @@ ul{list-style:none}
 @media(max-width:600px){
   .section{padding:56px 4%}
   .branding-gallery{grid-template-columns:repeat(2,1fr)}
-  #banner .work-layout{grid-template-columns:1fr}
+  #banner .work-item{grid-template-columns:1fr}
   .banner-grid{grid-template-columns:repeat(3,1fr)}
   .skills-grid{gap:14px}
   .history-list li{grid-template-columns:1fr;gap:3px}
@@ -1308,8 +1310,8 @@ ul{list-style:none}
       <span class="label">Banner</span>
     </div>
 
-    <div class="work-layout reveal">
-      <div class="banner-header">
+    <article class="work-item reveal">
+      <div class="work-meta banner-header">
         <p class="b-sub">Banner Design</p>
         <h2 class="b-title"><span>메타/이벤트/광고/썸네일 &nbsp;</span>배너 디자인</h2>
         <p class="b-period">1hour ~ 3hour</p>
@@ -1330,7 +1332,7 @@ ul{list-style:none}
         <div class="bn-item"><img src="portfolio_webp_optimized/bnr_8.png" alt="배너 디자인 08" onerror="this.style.display='none'"/></div>
         <div class="bn-item"><img src="portfolio_webp_optimized/bnr_9.png" alt="배너 디자인 09" onerror="this.style.display='none'"/></div>
       </div>
-    </div>
+    </article>
   </section>
 
   <!-- CONTACT --------------------------------------- -->
