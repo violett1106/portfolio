@@ -771,6 +771,63 @@ ul{list-style:none}
 .vieuro-card img{width:100%;height:auto;display:block}
 .vieuro-wide{grid-column:1/-1}
 
+/* ===== VIEURO 실시간 브라우저 미리보기 ===== */
+.site-frame{
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;overflow:hidden;
+  background:#1a1a1a;
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
+}
+.site-frame-bar{
+  display:flex;align-items:center;gap:7px;
+  padding:11px 14px;background:#0c0c0c;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.sf-dot{width:11px;height:11px;border-radius:50%;display:block;flex-shrink:0}
+.sf-dot.r{background:#ff5f56}
+.sf-dot.y{background:#ffbd2e}
+.sf-dot.g{background:#27c93f}
+.site-frame-url{
+  flex:1;margin-left:10px;
+  font-size:11px;letter-spacing:.04em;color:#999;
+  background:#1c1c1c;border-radius:6px;padding:6px 14px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.site-frame-open{
+  font-size:10px;font-weight:700;letter-spacing:.1em;
+  color:#8B5CF6;white-space:nowrap;flex-shrink:0;
+}
+.site-frame-body{
+  position:relative;
+  min-height:520px;
+  background:
+    radial-gradient(circle at 30% 25%,rgba(139,92,246,0.10),transparent 55%),
+    linear-gradient(160deg,#16131c,#0f0d13);
+}
+.site-card{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  padding:34px;text-align:center;
+}
+.site-card-logo{width:180px;height:auto;object-fit:contain;margin-bottom:4px}
+.sf-fb-title{font-size:16px;font-weight:700;color:#fff;letter-spacing:.06em}
+.sf-fb-desc{font-size:11px;color:#9a90b0;letter-spacing:.1em;margin-top:-8px}
+.vk-brands{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:340px;margin-top:4px}
+.vk-brands span{
+  font-size:10px;color:#bbb;border:1px solid rgba(255,255,255,.16);
+  border-radius:999px;padding:6px 14px;letter-spacing:.03em;
+}
+.sf-fb-link{
+  margin-top:10px;
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:#fff;border:1px solid rgba(255,255,255,.28);padding:11px 24px;border-radius:6px;
+  transition:border-color .3s,color .3s,background .3s;
+}
+.sf-fb-link:hover{border-color:#8B5CF6;color:#fff;background:#8B5CF6}
+.site-frame-caption{
+  margin-top:14px;font-size:10.5px;color:#666;letter-spacing:.04em;text-align:center;
+}
+
 
 /* =====================================================
    RESPONSIVE
@@ -812,6 +869,8 @@ ul{list-style:none}
   .work-longview{height:70vh}
 
   .branding-inner{grid-template-columns:1fr;gap:40px}
+  .site-frame-body{min-height:430px}
+  .site-card-logo{width:150px}
   .branding-gallery{grid-template-columns:repeat(3,1fr)}
 
   .banner-grid{grid-template-columns:repeat(3,1fr)}
@@ -1194,23 +1253,27 @@ ul{list-style:none}
 
       
 <div class="reveal">
-  <div class="vieuro-hero">
-    <img src="images/branding_01.jpg" alt="VIEURO KOREA Main"/>
+  <div class="site-frame" id="vieuroFrame">
+    <div class="site-frame-bar">
+      <span class="sf-dot r"></span><span class="sf-dot y"></span><span class="sf-dot g"></span>
+      <span class="site-frame-url">vieurokorea.com</span>
+      <a class="site-frame-open" href="https://vieurokorea.com/" target="_blank" rel="noopener noreferrer">열기 ↗</a>
+    </div>
+    <div class="site-frame-body">
+      <div class="site-card">
+        <img class="site-card-logo" src="https://vieurokorea.com/wp-content/uploads/2026/03/web_logo-1.png" alt="VIEURO KOREA"
+             onerror="this.style.display='none'"/>
+        <p class="sf-fb-title">VIEURO KOREA</p>
+        <p class="sf-fb-desc">Premium Materials · Timeless Design</p>
+        <div class="vk-brands">
+          <span>BerryAlloc</span><span>Agglotech</span><span>Anatolia</span>
+          <span>Dewata</span><span>L-light</span><span>I Crolla</span>
+        </div>
+        <a class="sf-fb-link" href="https://vieurokorea.com/" target="_blank" rel="noopener noreferrer">웹사이트 바로가기 ↗</a>
+      </div>
+    </div>
   </div>
-
-  <div class="vieuro-grid">
-    <div class="vieuro-card">
-      <img src="images/branding_02.jpg" alt="Brand Page"/>
-    </div>
-
-    <div class="vieuro-card">
-      <img src="images/branding_03.jpg" alt="Brand Page Detail"/>
-    </div>
-
-    <div class="vieuro-card vieuro-wide">
-      <img src="images/branding_04.jpg" alt="Product Detail Page"/>
-    </div>
-  </div>
+  <p class="site-frame-caption">워드프레스 기반 기업 홈페이지 운영 · 콘텐츠/디자인 관리</p>
 </div>
     </div>
   </section>
@@ -1320,19 +1383,45 @@ sections.forEach(s => io.observe(s));
 /* =====================================================
    3. 스크롤 reveal
 ===================================================== */
-const revealIO = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => {
-    if (!e.isIntersecting) return;
-    // 형제 중 순서대로 딜레이
-    const siblings = [...e.target.parentElement.querySelectorAll('.reveal')];
-    const idx = siblings.indexOf(e.target);
-    e.target.style.transitionDelay = (idx * 0.07) + 's';
-    e.target.classList.add('on');
-    revealIO.unobserve(e.target);
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+const revealEls = document.querySelectorAll('.reveal');
 
-document.querySelectorAll('.reveal').forEach(el => revealIO.observe(el));
+function showReveal(el){
+  if (el.classList.contains('on')) return;
+  const siblings = [...el.parentElement.querySelectorAll('.reveal')];
+  const idx = siblings.indexOf(el);
+  el.style.transitionDelay = (idx * 0.07) + 's';
+  el.classList.add('on');
+}
+
+if ('IntersectionObserver' in window) {
+  // threshold:0 → 요소가 화면에 "조금이라도" 들어오면 바로 표시
+  // (기존 0.1은 모바일처럼 화면이 짧고 요소가 길면 10%를 못 채워 영영 안 보일 수 있었음)
+  const revealIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      showReveal(e.target);
+      revealIO.unobserve(e.target);
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+
+  revealEls.forEach(el => revealIO.observe(el));
+
+  // 안전장치: 관찰자가 어떤 이유로든 콜백을 못 받아도 화면이 비지 않도록,
+  // 스크롤·리사이즈·로드 시 화면에 들어온 요소는 직접 표시한다.
+  const revealOnScroll = () => {
+    revealEls.forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) showReveal(el);
+    });
+  };
+  window.addEventListener('scroll', revealOnScroll, { passive: true });
+  window.addEventListener('resize', revealOnScroll);
+  window.addEventListener('load', revealOnScroll);
+  revealOnScroll();
+} else {
+  // IntersectionObserver 미지원 환경 → 애니메이션 없이 전부 즉시 표시
+  revealEls.forEach(el => el.classList.add('on'));
+}
 
 /* =====================================================
    4. 스무스 앵커 (사이드바 높이 보정)
@@ -1400,6 +1489,7 @@ detailModal.querySelectorAll('[data-close]').forEach(el => {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && detailModal.classList.contains('open')) closeDetail();
 });
+
 </script>
 </body>
 </html>
