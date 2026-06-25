@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PORTFOLIO</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/subsets/Paperlogy-dynamic-subset.css"/>
+<style>
+/* =====================================================
+   RESET
+===================================================== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'Pretendard Variable','Pretendard',-apple-system,sans-serif;
+  background:#111;
+  color:#fff;
+  overflow-x:hidden;
+}
+img{display:block;width:100%;height:100%;object-fit:cover}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+/* =====================================================
+   LAYOUT — 좌측 고정 사이드바 + 오른쪽 콘텐츠
+===================================================== */
+#wrapper{
+  display:flex;
+  min-height:100vh;
+}
+
+/* =====================================================
+   SIDE NAV
+===================================================== */
+#side-nav{
+  position:fixed;
+  top:0;left:0;bottom:0;
+  width:180px;
+  background:#0c0c0c;
+  border-right:1px solid rgba(255,255,255,0.08);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:40px 0 30px;
+  z-index:200;
+}
+.nav-logo{
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:0.15em;
+  text-align:center;
+  line-height:1.5;
+  margin-bottom:48px;
+  color:#fff;
+}
+.nav-logo em{
+  display:block;
+  font-style:normal;
+  font-size:9px;
+  font-weight:400;
+  letter-spacing:0.3em;
+  color:#888;
+  margin-top:4px;
+}
+.nav-menu{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+}
+.nav-menu a{
+  display:block;
+  font-size:10.5px;
+  font-weight:500;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:#777;
+  padding:10px 28px;
+  border-left:2px solid transparent;
+  transition:color 0.3s,border-color 0.3s;
+}
+.nav-menu a:hover,
+.nav-menu a.active{
+  color:#fff;
+  border-left-color:#8B5CF6;
+}
+.nav-bottom{
+  margin-top:auto;
+  font-size:9px;
+  color:#444;
+  letter-spacing:0.08em;
+  text-align:center;
+}
+
+/* 햄버거 (모바일) */
+#hamburger{
+  display:none;
+  position:fixed;
+  top:14px;right:16px;
+  z-index:300;
+  background:none;border:none;cursor:pointer;
+  flex-direction:column;gap:5px;padding:4px;
+}
+#hamburger span{
+  display:block;width:22px;height:1.5px;background:#fff;
+  transition:0.3s;
+}
+#hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+#hamburger.open span:nth-child(2){transform:translateY(-6.5px) rotate(-45deg)}
+
+/* =====================================================
+   MAIN CONTENT (사이드바 옆)
+===================================================== */
+#main{
+  margin-left:180px;
+  width:calc(100% - 180px);
+}
+
+/* =====================================================
+   공통 섹션 스타일
+===================================================== */
+.section{
+  padding:100px 80px;
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+.section:first-child{border-top:none}
+
+/* | SECTION TITLE */
+.sec-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:60px;
+}
+.sec-title .bar{
+  font-size:22px;
+  font-weight:300;
+  color:#8B5CF6;
+  line-height:1;
+}
+.sec-title .label{
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:0.35em;
+  text-transform:uppercase;
+  color:#fff;
+}
+.sec-title .sub-num{
+  margin-left:auto;
+  font-size:10px;
+  letter-spacing:0.2em;
+  color:#555;
+  font-weight:400;
+}
+
+/* =====================================================
+   HERO
+===================================================== */
+#hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:0;
+  border-top:none;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(160deg,#1a1a1a 0%,#0d0d0d 60%,#111 100%);
+  /* 실제 이미지 연결 시:
+  background:url('/images/main_bg.jpg') center/cover no-repeat; */
+}
+/* placeholder 격자 패턴 */
+.hero-bg::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.hero-bg::after{
+  content:'';
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,0.5);
+  z-index:1;
+}
+.hero-content{
+  position:relative;z-index:2;
+  text-align:center;
+  padding:0 40px;
+}
+.hero-eyebrow{
+  font-size:12px;font-weight:600;
+  letter-spacing:0.55em;text-transform:uppercase;
+  color:#8B5CF6;
+  margin-bottom:22px;
+  padding-left:0.55em;
+}
+/* 메인 타이틀 — 무료 폰트(Paperlogy)로 크고 힘있게 */
+.hero-title{
+  font-family:'Paperlogy',sans-serif;
+  font-size:clamp(3.4rem,11vw,9.5rem);
+  font-weight:700;
+  line-height:0.96;
+  letter-spacing:-0.005em;
+  margin-bottom:30px;
+  text-transform:uppercase;
+}
+.hero-title .line{
+  display:block;
+  color:#fff;
+}
+.hero-title .line.accent{
+  color:#8B5CF6;
+}
+.hero-title .sub-title{
+  text-transform:none !important;
+  font-size:0.42em;
+  letter-spacing:0.12em;
+  font-weight:600;
+  margin-top:0.18em;
+}
+.hero-sign{
+  font-size:13px;font-weight:500;
+  letter-spacing:0.32em;text-transform:uppercase;
+  color:rgba(255,255,255,0.62);
+  margin-bottom:54px;
+  padding-left:0.32em;
+}
+.hero-sign b{
+  color:#fff;font-weight:700;
+}
+.hero-desc{
+  font-size:14px;font-weight:300;
+  color:rgba(255,255,255,0.55);
+  line-height:2;
+  margin-bottom:48px;
+}
+.hero-scroll{
+  display:inline-flex;flex-direction:column;align-items:center;gap:10px;
+  font-size:9px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;
+  color:#555;
+  transition:color 0.3s;
+}
+.hero-scroll:hover{color:#fff}
+.hero-scroll-line{
+  width:1px;height:50px;
+  background:linear-gradient(to bottom,#555,transparent);
+  animation:lineAnim 1.8s ease-in-out infinite;
+}
+@keyframes lineAnim{
+  0%,100%{transform:scaleY(1);opacity:0.5}
+  50%{transform:scaleY(0.5);opacity:1}
+}
+/* 배경 큰 텍스트 */
+.hero-bg-text{
+  position:absolute;bottom:-0.06em;right:0.02em;
+  font-family:'Paperlogy',sans-serif;
+  font-size:clamp(7rem,18vw,18rem);
+  font-weight:700;letter-spacing:-0.01em;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(139,92,246,0.08);
+  line-height:0.82;
+  user-select:none;pointer-events:none;
+  z-index:1;
+}
+
+/* =====================================================
+   PROFILE
+===================================================== */
+#profile{background:#111}
+
+.profile-wrap{
+  display:flex;
+  gap:70px;
+  align-items:flex-start;
+}
+
+/* 왼쪽: 사진 + 기본정보 */
+.profile-left{
+  flex-shrink:0;
+  width:200px;
+}
+.profile-photo{
+  width:200px;
+  margin-bottom:22px;
+  background:transparent;
+  position:relative;
+}
+.profile-photo img{
+  width:100%;height:auto;display:block;
+}
+.profile-photo-ph{display:none}
+.profile-tagline{
+  font-size:15px;font-weight:700;line-height:1.55;
+  color:#fff;letter-spacing:-0.01em;
+  margin-bottom:18px;
+}
+.profile-tagline b{color:#8B5CF6;font-weight:700;}
+.profile-name{
+  font-size:12px;font-weight:700;letter-spacing:0.08em;
+  color:#fff;margin-bottom:12px;
+}
+.profile-contact li{
+  font-size:11px;color:#777;line-height:2.2;letter-spacing:0.04em;
+}
+
+/* 오른쪽: 상세 */
+.profile-right{flex:1}
+
+.profile-block{
+  margin-bottom:36px;
+  padding-bottom:36px;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+}
+.profile-block:last-child{border-bottom:none;margin-bottom:0}
+
+.block-title{
+  font-size:9px;font-weight:700;
+  letter-spacing:0.3em;text-transform:uppercase;
+  color:#8B5CF6;margin-bottom:18px;
+}
+
+/* 스킬 그리드 */
+.skills-grid{
+  display:flex;flex-wrap:wrap;gap:20px;
+}
+.skill-item{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  width:64px;
+}
+.skill-icon{
+  width:52px;height:52px;
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  flex-shrink:0;
+}
+.skill-icon svg{
+  width:52px;height:52px;
+  display:block;
+  flex-shrink:0;
+}
+.skill-icon img{
+  width:52px;height:52px;
+  object-fit:contain;
+  display:block;
+}
+/* 투명 배경 아이콘용 (SketchUp, HTML5) — 어두운 배경 패딩 처리 */
+.skill-icon--white{
+  background:#1e1e1e;
+  padding:6px;
+}
+.skill-icon--white img{
+  width:40px;height:40px;
+  object-fit:contain;
+}
+.skill-name{font-size:9.5px;color:#666;text-align:center;letter-spacing:0.03em}
+
+/* 히스토리 */
+.history-list li{
+  display:grid;
+  grid-template-columns:150px 1fr;
+  gap:16px;
+  padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  align-items:baseline;
+}
+.history-list li:last-child{border-bottom:none}
+.h-period{font-size:10.5px;color:#8B5CF6;letter-spacing:0.03em;white-space:nowrap}
+.h-desc{font-size:11.5px;color:#888;line-height:1.6;font-weight:300}
+.h-desc strong{font-weight:600;color:#ccc}
+
+/* =====================================================
+   PAGE (프로젝트 상세페이지 섹션)
+===================================================== */
+#page{background:#151515}
+
+/* 프로젝트 1개 = work-item */
+.work-item{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:70px;
+  align-items:center;
+  padding:70px 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.work-item:first-of-type{padding-top:0}
+.work-item:last-of-type{border-bottom:none;padding-bottom:0}
+
+/* 이미지는 항상 오른쪽 (대표 1장) */
+
+/* 텍스트 영역 */
+.work-meta{}
+.work-num{
+  font-size:9px;font-weight:700;
+  letter-spacing:0.3em;text-transform:uppercase;
+  color:#8B5CF6;margin-bottom:8px;
+}
+.work-title{
+  font-size:clamp(1.1rem,2vw,1.65rem);
+  font-weight:700;line-height:1.35;
+  letter-spacing:-0.02em;
+  margin-bottom:6px;
+}
+.work-period{
+  font-size:10.5px;color:#666;
+  margin-bottom:28px;letter-spacing:0.04em;
+}
+
+.work-block{margin-bottom:18px}
+.work-block-title{
+  font-size:9px;font-weight:700;
+  letter-spacing:0.28em;text-transform:uppercase;
+  color:#8B5CF6;margin-bottom:7px;
+}
+.work-block-body{
+  font-size:12px;color:#888;
+  line-height:1.9;font-weight:300;
+}
+.work-keypoints{display:flex;flex-direction:column;gap:3px}
+.work-keypoints li{
+  font-size:12px;color:#888;line-height:1.8;font-weight:300;
+}
+
+.work-skill-row{
+  display:flex;align-items:center;gap:10px;margin-top:4px;
+}
+.work-skill-text{font-size:11px;color:#666;letter-spacing:0.04em}
+.work-skill-icons{display:flex;gap:9px}
+.w-icon{
+  width:32px;height:32px;
+  background:#1e1e1e;border:1px solid rgba(255,255,255,0.1);
+  border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;color:#555;
+}
+/* 컬러 스킬 아이콘 (어바웃 페이지와 동일) */
+.work-ic{
+  width:40px;height:40px;border-radius:9px;overflow:hidden;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.work-ic img,.work-ic svg{
+  width:40px;height:40px;object-fit:contain;display:block;
+}
+
+.work-more{
+  display:inline-block;
+  margin-top:24px;
+  font-size:10.5px;font-weight:600;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:#fff;
+  background:none;font-family:inherit;cursor:pointer;
+  border:1px solid rgba(255,255,255,0.2);
+  padding:9px 20px;
+  transition:border-color 0.3s,color 0.3s;
+}
+.work-more:hover{border-color:#8B5CF6;color:#8B5CF6}
+
+/* 대표 이미지 1장 (오른쪽) — 클릭 시 전체 상세페이지 모달 */
+.work-image{display:block}
+.work-thumb{
+  display:block;width:100%;padding:0;
+  background:#1e1e1e;border:1px solid rgba(255,255,255,0.06);
+  position:relative;overflow:hidden;cursor:pointer;
+  aspect-ratio:9/16; /* 세로 긴 상세페이지 느낌 */
+}
+.work-thumb img{position:absolute;inset:0;transition:transform 0.6s ease}
+.work-thumb:hover img{transform:scale(1.04)}
+.work-thumb-hint{
+  position:absolute;inset:0;z-index:4;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  background:linear-gradient(180deg,rgba(15,12,22,0.35),rgba(15,12,22,0.6));
+  color:#fff;opacity:0;transition:opacity 0.35s ease;
+}
+.work-thumb:hover .work-thumb-hint{opacity:1}
+.work-thumb-hint .plus{
+  width:46px;height:46px;border-radius:50%;
+  border:1px solid rgba(255,255,255,0.55);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:300;line-height:1;
+}
+.work-thumb-hint .txt{
+  font-size:10.5px;font-weight:600;
+  letter-spacing:0.2em;text-transform:uppercase;
+}
+
+/* ===== 전체 상세페이지 모달 ===== */
+.detail-modal{
+  position:fixed;inset:0;z-index:1000;
+  display:none;
+}
+.detail-modal.open{display:block}
+.detail-backdrop{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,0.78);
+  backdrop-filter:blur(3px);
+  animation:fadeIn 0.3s ease;
+}
+.detail-panel{
+  position:absolute;top:0;bottom:0;right:0;
+  width:min(560px,100%);
+  background:#141118;
+  border-left:1px solid rgba(255,255,255,0.08);
+  display:flex;flex-direction:column;
+  transform:translateX(20px);opacity:0;
+  animation:slideIn 0.38s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideIn{to{transform:translateX(0);opacity:1}}
+.detail-head{
+  flex:0 0 auto;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:18px 22px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  background:#141118;
+}
+.detail-head .d-num{
+  font-size:9px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;
+  color:#8B5CF6;margin-bottom:4px;
+}
+.detail-head .d-title{
+  font-size:14px;font-weight:700;color:#fff;letter-spacing:-0.01em;
+}
+.detail-close{
+  flex:0 0 auto;
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);
+  color:#fff;font-size:20px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.25s,border-color 0.25s;
+}
+.detail-close:hover{background:#8B5CF6;border-color:#8B5CF6}
+.detail-scroll{
+  flex:1 1 auto;overflow-y:auto;
+  padding:0;
+  scrollbar-width:thin;scrollbar-color:#8B5CF6 #1c1820;
+}
+.detail-scroll::-webkit-scrollbar{width:8px}
+.detail-scroll::-webkit-scrollbar-track{background:#1c1820}
+.detail-scroll::-webkit-scrollbar-thumb{background:#4b3a6b;border-radius:8px}
+.detail-scroll::-webkit-scrollbar-thumb:hover{background:#8B5CF6}
+/* 모달 안: 길게 이어지는 상세페이지 이미지들 */
+.detail-page-img{
+  position:relative;width:100%;
+  min-height:62vh;
+  background:#1e1e1e;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  display:flex;
+}
+.detail-page-img img{
+  display:block;width:100%;height:auto;
+  position:relative;z-index:1;
+}
+.detail-page-img .img-ph{
+  position:absolute;inset:0;z-index:0;
+}
+
+/* ===== 인라인 롱뷰 (페이지1) — 프레임 안에서 상세페이지 전체 스크롤 ===== */
+.work-item.inline{align-items:start}
+.work-item.inline .work-title{margin-bottom:34px}
+.work-item.inline .work-meta{position:sticky;top:90px}
+.longview-label{
+  display:flex;align-items:center;gap:7px;
+  font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;
+  color:#8B5CF6;margin-bottom:10px;
+}
+.longview-label .dot{
+  width:5px;height:5px;border-radius:50%;background:#8B5CF6;
+  animation:pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.25}}
+.work-longview .lv-img{display:block;width:100%;height:auto;margin:0}
+.work-longview .lv-img+.lv-img{margin-top:-1px}
+.work-longview{
+  position:relative;
+  height:min(82vh,860px);
+  overflow-y:auto;overflow-x:hidden;
+  background:#1e1e1e;
+  border:1px solid rgba(255,255,255,0.06);
+  scrollbar-width:thin;scrollbar-color:#8B5CF6 #1c1820;
+}
+.work-longview::-webkit-scrollbar{width:8px}
+.work-longview::-webkit-scrollbar-track{background:#1c1820}
+.work-longview::-webkit-scrollbar-thumb{background:#4b3a6b;border-radius:8px}
+.work-longview::-webkit-scrollbar-thumb:hover{background:#8B5CF6}
+/* 하단 페이드 + 스크롤 힌트 */
+.work-longview-wrap{position:relative}
+.work-longview-wrap::after{
+  content:'';position:absolute;left:0;right:8px;bottom:0;height:60px;
+  background:linear-gradient(180deg,transparent,rgba(20,17,24,0.9));
+  pointer-events:none;z-index:3;
+}
+.img-ph{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:4px;
+  font-size:9px;letter-spacing:0.12em;text-transform:uppercase;
+  color:#333;text-align:center;pointer-events:none;
+}
+
+/* =====================================================
+   BRANDING
+===================================================== */
+#branding{background:#111}
+
+.branding-inner{
+  display:grid;
+  grid-template-columns:1fr 1.4fr;
+  gap:70px;
+  align-items:start;
+}
+.branding-info .b-sub{
+  font-size:9px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;
+  color:#8B5CF6;margin-bottom:10px;
+}
+.branding-info .b-title{
+  font-size:clamp(1.2rem,2.2vw,2rem);
+  font-weight:700;line-height:1.3;margin-bottom:6px;
+}
+.branding-info .b-title span{font-weight:300}
+.branding-info .b-period{font-size:10.5px;color:#666;margin-bottom:20px}
+.branding-info .b-desc{
+  font-size:12px;color:#888;line-height:1.95;font-weight:300;
+  margin-bottom:20px;
+}
+.branding-list{display:flex;flex-direction:column;gap:6px;margin-bottom:24px}
+.branding-list li{
+  font-size:11.5px;color:#888;font-weight:300;
+  padding-left:14px;position:relative;line-height:1.6;
+}
+.branding-list li::before{content:'-';position:absolute;left:0;color:#8B5CF6}
+.branding-skills{
+  font-size:11px;color:#888;font-weight:300;line-height:1.7;
+  margin-bottom:26px;letter-spacing:0.02em;
+}
+.branding-skills .bs-label{
+  display:block;font-size:9px;font-weight:700;letter-spacing:0.18em;
+  text-transform:uppercase;color:#8B5CF6;margin-bottom:6px;
+}
+.branding-more{
+  display:inline-block;
+  font-size:10.5px;font-weight:600;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:#fff;border:1px solid rgba(255,255,255,0.2);
+  padding:9px 20px;
+  transition:border-color 0.3s,color 0.3s;
+}
+.branding-more:hover{border-color:#8B5CF6;color:#8B5CF6}
+
+/* 브랜딩 갤러리 3×2 */
+.branding-gallery{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+.b-img{
+  aspect-ratio:1/1;
+  background:#1e1e1e;
+  position:relative;overflow:hidden;
+  transition:transform 0.4s;
+}
+.b-img:hover{transform:scale(1.03)}
+.b-img img{position:absolute;inset:0}
+
+/* =====================================================
+   BANNER
+===================================================== */
+#banner{background:#151515}
+
+.banner-header{margin-bottom:40px}
+.banner-header .b-sub{
+  font-size:9px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;
+  color:#8B5CF6;margin-bottom:8px;
+}
+.banner-header .b-title{
+  font-size:clamp(1.1rem,2vw,1.8rem);font-weight:700;line-height:1.3;margin-bottom:6px;
+}
+.banner-header .b-title span{font-weight:300}
+.banner-header .b-period{font-size:10.5px;color:#666;margin-bottom:14px}
+.banner-header .b-desc{font-size:12px;color:#888;line-height:1.9;font-weight:300;margin-bottom:18px}
+.banner-more{
+  display:inline-block;
+  font-size:10.5px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;
+  color:#fff;border:1px solid rgba(255,255,255,0.2);padding:9px 20px;
+  transition:border-color 0.3s,color 0.3s;
+}
+.banner-more:hover{border-color:#8B5CF6;color:#8B5CF6}
+
+/* 배너 3×3 그리드 */
+.banner-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+.bn-item{
+  aspect-ratio:1/1;
+  background:#1e1e1e;
+  position:relative;overflow:hidden;cursor:pointer;
+}
+.bn-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform 0.4s}
+.bn-item:hover img{transform:scale(1.05)}
+
+/* =====================================================
+   CONTACT / FOOTER
+===================================================== */
+#contact{
+  position:relative;
+  min-height:55vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:100px 80px;
+  overflow:hidden;
+  border-top:1px solid rgba(255,255,255,0.06);
+}
+.contact-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(160deg,#0a0a0a,#0f0f0f,#0a0a0a);
+}
+.contact-bg::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 50% 50%,rgba(139,92,246,0.06) 0%,transparent 65%);
+}
+.contact-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.35);z-index:1}
+.contact-content{position:relative;z-index:2}
+.contact-sub{
+  font-size:10px;font-weight:600;letter-spacing:0.35em;text-transform:uppercase;
+  color:#8B5CF6;margin-bottom:16px;
+}
+.contact-title{
+  font-size:clamp(1.4rem,3vw,2.8rem);
+  font-weight:700;letter-spacing:-0.02em;margin-bottom:10px;
+}
+.contact-desc{
+  font-size:13px;color:rgba(255,255,255,0.45);font-weight:300;margin-bottom:36px;
+}
+.contact-info{
+  display:flex;align-items:center;justify-content:center;
+  flex-wrap:wrap;gap:6px 16px;
+  font-size:12px;color:#777;letter-spacing:0.05em;
+}
+.contact-info .divider{color:#333}
+.contact-info a:hover{color:#8B5CF6}
+.contact-copy{
+  position:relative;z-index:2;
+  margin-top:60px;
+  font-size:9.5px;color:#333;letter-spacing:0.08em;
+}
+
+/* =====================================================
+   SCROLL REVEAL
+===================================================== */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.on{opacity:1;transform:translateY(0)}
+
+
+/* ===== VIEURO WEB CASE STUDY LAYOUT ===== */
+.vieuro-case{display:grid;grid-template-columns:280px 1fr;gap:32px;align-items:start}
+.vieuro-side{position:sticky;top:90px}
+.vieuro-hero{margin-bottom:24px;border:1px solid rgba(255,255,255,.08);overflow:hidden}
+.vieuro-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.vieuro-card{border:1px solid rgba(255,255,255,.08);overflow:hidden;background:#1a1a1a}
+.vieuro-card img{width:100%;height:auto;display:block}
+.vieuro-wide{grid-column:1/-1}
+
+/* ===== VIEURO 실시간 브라우저 미리보기 ===== */
+.site-frame{
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;overflow:hidden;
+  background:#1a1a1a;
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
+}
+.site-frame-bar{
+  display:flex;align-items:center;gap:7px;
+  padding:11px 14px;background:#0c0c0c;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.sf-dot{width:11px;height:11px;border-radius:50%;display:block;flex-shrink:0}
+.sf-dot.r{background:#ff5f56}
+.sf-dot.y{background:#ffbd2e}
+.sf-dot.g{background:#27c93f}
+.site-frame-url{
+  flex:1;margin-left:10px;
+  font-size:11px;letter-spacing:.04em;color:#999;
+  background:#1c1c1c;border-radius:6px;padding:6px 14px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.site-frame-open{
+  font-size:10px;font-weight:700;letter-spacing:.1em;
+  color:#8B5CF6;white-space:nowrap;flex-shrink:0;
+}
+.site-frame-body{
+  position:relative;
+  height:560px;
+  overflow-y:auto;overflow-x:hidden;
+  background:#0f0d13;
+  scrollbar-width:thin;scrollbar-color:#8B5CF6 #1c1820;
+}
+.site-frame-body::-webkit-scrollbar{width:8px}
+.site-frame-body::-webkit-scrollbar-track{background:#1c1820}
+.site-frame-body::-webkit-scrollbar-thumb{background:#4b3a6b;border-radius:8px}
+.site-frame-body::-webkit-scrollbar-thumb:hover{background:#8B5CF6}
+.site-shot{display:block;width:100%;height:auto}
+.site-shot-missing{
+  display:none;
+  position:absolute;inset:0;
+  align-items:center;justify-content:center;flex-direction:column;text-align:center;
+  color:#888;font-size:12px;line-height:2;padding:30px;
+}
+.site-shot-missing code{color:#8B5CF6;font-size:11px}
+.site-frame.img-missing .site-shot{display:none}
+.site-frame.img-missing .site-shot-missing{display:flex}
+.site-frame-hint{
+  font-size:9.5px;color:#555;letter-spacing:.1em;text-align:center;
+  padding:8px 0 2px;
+}
+/* 추가 캡처 갤러리 */
+.vieuro-shots{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px;
+}
+.vieuro-shots img{
+  width:100%;height:auto;display:block;
+  border:1px solid rgba(255,255,255,.1);border-radius:8px;background:#1a1a1a;
+  transition:transform .4s,border-color .3s;
+}
+.vieuro-shots img:hover{transform:translateY(-3px);border-color:rgba(139,92,246,.5)}
+.site-frame-caption{
+  margin-top:14px;font-size:10.5px;color:#666;letter-spacing:.04em;text-align:center;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+@media(max-width:1024px){
+  #side-nav{
+    width:100%;height:52px;
+    flex-direction:row;
+    padding:0 20px;
+    bottom:auto;
+    border-right:none;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .nav-logo{margin-bottom:0;font-size:11px}
+  .nav-menu{
+    position:fixed;
+    top:52px;left:0;right:0;
+    flex-direction:column;
+    background:#0c0c0c;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    opacity:0;pointer-events:none;
+    transition:opacity 0.3s;
+  }
+  .nav-menu.open{opacity:1;pointer-events:auto}
+  .nav-menu a{border-left:none;border-bottom:1px solid rgba(255,255,255,0.05);padding:13px 20px}
+  .nav-bottom{display:none}
+  #hamburger{display:flex}
+  #main{margin-left:0;margin-top:52px;width:100%}
+  .section{padding:70px 5%}
+  #contact{padding:80px 5%}
+
+  .profile-wrap{flex-direction:column;gap:40px}
+  .history-list li{grid-template-columns:1fr;gap:4px}
+
+  .work-item{grid-template-columns:1fr;gap:36px}
+  .work-thumb{aspect-ratio:16/12;max-height:440px}
+  .work-item.inline{align-items:stretch}
+  .work-item.inline .work-meta{position:static;top:auto}
+  .work-longview{height:70vh}
+
+  .branding-inner{grid-template-columns:1fr;gap:40px}
+  .site-frame-body{height:400px}
+  .vieuro-shots{grid-template-columns:1fr;gap:10px}
+  .branding-gallery{grid-template-columns:repeat(3,1fr)}
+
+  .banner-grid{grid-template-columns:repeat(3,1fr)}
+}
+
+@media(max-width:600px){
+  .section{padding:56px 4%}
+  .branding-gallery{grid-template-columns:repeat(2,1fr)}
+  .banner-grid{grid-template-columns:repeat(2,1fr)}
+  .skills-grid{gap:14px}
+  .history-list li{grid-template-columns:1fr;gap:3px}
+}
+</style>
+</head>
+<body>
+
+<!-- =====================================================
+     SIDE NAV
+===================================================== -->
+<nav id="side-nav">
+  <p class="nav-logo">KWON<em>BORA</em></p>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="#hero"     class="active">Intro</a></li>
+    <li><a href="#profile"          >Profile</a></li>
+    <li><a href="#page"             >Page</a></li>
+    <li><a href="#branding"         >Web Operation</a></li>
+    <li><a href="#banner"           >Banner</a></li>
+    <li><a href="#contact"          >Contact</a></li>
+  </ul>
+  <p class="nav-bottom">© 2025</p>
+</nav>
+<button id="hamburger" aria-label="메뉴">
+  <span></span><span></span>
+</button>
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+<div id="main">
+
+  <!-- HERO ------------------------------------------ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <span class="hero-bg-text">PORTFOLIO</span>
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="line">PORTFOLIO</span>
+        <span class="line accent sub-title">(web designer)</span>
+      </h1>
+      <p class="hero-sign"><b>권보라</b> &nbsp;·&nbsp; BORA KWON</p>
+      <a class="hero-scroll" href="#profile">
+        <span>Scroll</span>
+        <i class="hero-scroll-line"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- PROFILE --------------------------------------- -->
+  <section class="section" id="profile">
+    <div class="sec-title reveal">
+      <span class="bar">|</span>
+      <span class="label">Profile</span>
+    </div>
+
+    <div class="profile-wrap">
+      <!-- 왼쪽 사진 + 연락처 -->
+      <div class="profile-left reveal">
+        <div class="profile-photo">
+          <img src="ProfileView.webp" alt="권보라 프로필 사진"/>
+        </div>
+        <p class="profile-tagline">브랜드와 사용자를 잇는<br/>웹디자이너 <b>권보라</b></p>
+        <ul class="profile-contact">
+          <li>1990. 06. 19</li>
+          <li>010. 7655. 2624</li>
+          <li>bore5430@hanmail.net</li>
+        </ul>
+      </div>
+
+      <!-- 오른쪽 상세 -->
+      <div class="profile-right">
+
+        <div class="profile-block reveal">
+          <p class="block-title">Tool &amp; Skills</p>
+          <div class="skills-grid">
+
+            <!-- ① Photoshop -->
+            <div class="skill-item">
+              <div class="skill-icon">
+                <img src="icon-photoshop-5968520.png" alt="Photoshop"/>
+              </div>
+              <span class="skill-name">Photoshop</span>
+            </div>
+
+            <!-- ② Illustrator -->
+            <div class="skill-item">
+              <div class="skill-icon">
+                <img src="icon-illustrator-5968472.png" alt="Illustrator"/>
+              </div>
+              <span class="skill-name">Illustrator</span>
+            </div>
+
+            <!-- ③ Premiere Pro -->
+            <div class="skill-item">
+              <div class="skill-icon">
+                <img src="icon-premiere-pro-5968525.png" alt="Premiere Pro"/>
+              </div>
+              <span class="skill-name">Premiere Pro</span>
+            </div>
+
+            <!-- ④ Lightroom -->
+            <div class="skill-item">
+              <div class="skill-icon">
+                <img src="icon-photoshop-lightroom-5968514.png" alt="Lightroom"/>
+              </div>
+              <span class="skill-name">Lightroom</span>
+            </div>
+
+            <!-- ⑤ SketchUp -->
+            <div class="skill-item">
+              <div class="skill-icon skill-icon--white">
+                <img src="icon-sketchup-1379259.png" alt="SketchUp"/>
+              </div>
+              <span class="skill-name">SketchUp</span>
+            </div>
+
+            <!-- ⑥ HTML / CSS -->
+            <div class="skill-item">
+              <div class="skill-icon skill-icon--white">
+                <img src="icon-html-5-919827.png" alt="HTML5 CSS"/>
+              </div>
+              <span class="skill-name">HTML / CSS</span>
+            </div>
+
+            <!-- ⑦ Generative AI -->
+            <div class="skill-item">
+              <div class="skill-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" width="52" height="52">
+                  <defs>
+                    <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#6B4EFF"/>
+                      <stop offset="50%" stop-color="#C84BFF"/>
+                      <stop offset="100%" stop-color="#FF6B9D"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="52" height="52" rx="10" fill="url(#aiGrad)"/>
+                  <path d="M26 9 L28.2 21.8 L41 24 L28.2 26.2 L26 39 L23.8 26.2 L11 24 L23.8 21.8 Z" fill="white"/>
+                  <path d="M39 34 L40 39 L45 40 L40 41 L39 46 L38 41 L33 40 L38 39 Z" fill="white" opacity="0.75"/>
+                  <path d="M13 9 L13.8 12.2 L17 13 L13.8 13.8 L13 17 L12.2 13.8 L9 13 L12.2 12.2 Z" fill="white" opacity="0.65"/>
+                </svg>
+              </div>
+              <span class="skill-name">Generative AI</span>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="profile-block reveal">
+          <p class="block-title">Education</p>
+          <ul class="history-list">
+            <li>
+              <span class="h-period">2009.03 — 2014.02</span>
+              <span class="h-desc">한국방송예술진흥원 방송연출학과 졸업</span>
+            </li>
+            <li>
+              <span class="h-period">2009</span>
+              <span class="h-desc">삼산고등학교 문과계열 졸업</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="profile-block reveal">
+          <p class="block-title">Experience</p>
+          <ul class="history-list">
+            <li>
+              <span class="h-period">2025.03 — 재직중</span>
+              <span class="h-desc"><strong>뉴스텍컴퍼니</strong> 웹디자이너</span>
+            </li>
+            <li>
+              <span class="h-period">2024.03 — 2025.03</span>
+              <span class="h-desc"><strong>웹디자인 프리랜서</strong> 대리 · 팀원 (1년 1개월)</span>
+            </li>
+            <li>
+              <span class="h-period">2022.07 — 2024.02</span>
+              <span class="h-desc"><strong>로홈강남</strong> 웹디자이너 · 온라인사업부 (1년 8개월)</span>
+            </li>
+            <li>
+              <span class="h-period">2020.08 — 2022.05</span>
+              <span class="h-desc"><strong>웹디자인 프리랜서</strong> 웹디자이너 (1년 10개월)</span>
+            </li>
+            <li>
+              <span class="h-period">2020.03 — 2020.07</span>
+              <span class="h-desc"><strong>신승FS</strong> 디자인팀 웹디자이너 (5개월)</span>
+            </li>
+            <li>
+              <span class="h-period">2018.09 — 2019.10</span>
+              <span class="h-desc"><strong>인스벨로</strong> 웹디자이너 · 일러스트레이터 (1년 2개월)</span>
+            </li>
+            <li>
+              <span class="h-period">2016.03 — 2018.03</span>
+              <span class="h-desc"><strong>(주)퍼시픽하우스가구</strong> 홍보팀 웹디자이너 (2년 1개월)</span>
+            </li>
+            <li>
+              <span class="h-period">2012.04 — 2013.06</span>
+              <span class="h-desc"><strong>후미디어</strong> 영상팀 포토그래퍼 · 영상편집 (1년 3개월)</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="profile-block reveal">
+          <p class="block-title">Certifications</p>
+          <ul class="history-list">
+            <li>
+              <span class="h-period">2016.03</span>
+              <span class="h-desc">(국가공인) GTQ 포토샵 1급 — 한국생산성본부</span>
+            </li>
+            <li>
+              <span class="h-period">2014.03</span>
+              <span class="h-desc">자동차운전면허</span>
+            </li>
+          </ul>
+        </div>
+
+      </div><!-- /profile-right -->
+    </div>
+  </section>
+
+  <!-- PAGE ------------------------------------------ -->
+  <section class="section" id="page">
+    <div class="sec-title reveal">
+      <span class="bar">|</span>
+      <span class="label">Page</span>
+    </div>
+
+    <!-- 작업 01 (인라인 롱뷰: 버튼 없이 프레임 안에서 전체 스크롤) -->
+    <article class="work-item inline"
+             data-num="Portfolio Page.1"
+             data-title="다브츠리빙 오로라 오브 펜던트 상세페이지"
+             data-images="page1%20(1).webp,page1%20(2).webp,page1%20(3).webp,page1%20(4).webp,page1%20(5).webp">
+      <div class="work-meta reveal">
+        <p class="work-num">Portfolio Page.1</p>
+        <h2 class="work-title">다브츠리빙 &nbsp; 오로라 오브 펜던트 &nbsp; 상세페이지</h2>
+        <div class="work-block">
+          <p class="work-block-title">OverView</p>
+          <p class="work-block-body">
+            프리미엄 조명 브랜드 <strong style="color:#aaa;font-weight:500">다브츠리빙</strong>의 <strong style="color:#aaa;font-weight:500">오로라 오브 펜던트</strong><br/>
+            상세페이지 제작 프로젝트입니다.<br/><br/>
+            제품의 소재감과 빛의 분위기를 효과적으로 전달하기 위해<br/>
+            AI 기반 라이프스타일 이미지를 직접 기획·생성하였으며,<br/>
+            이를 활용해 프리미엄 브랜드 무드와 제품의 특징을<br/>
+            직관적으로 전달할 수 있도록 구성하였습니다.
+          </p>
+        </div>
+        <div class="work-block">
+          <p class="work-block-title">Role</p>
+          <ul class="work-keypoints">
+            <li>· 시장 및 경쟁사 리서치</li>
+            <li>· 콘텐츠 기획</li>
+            <li>· AI 이미지 기획 및 생성</li>
+            <li>· 프롬프트 설계</li>
+            <li>· 이미지 보정</li>
+            <li>· 상세페이지 디자인</li>
+          </ul>
+        </div>
+        <div class="work-block">
+          <p class="work-block-title">Skills</p>
+          <div class="work-skill-row">
+            <div class="work-skill-icons">
+              <div class="work-ic" title="Photoshop" aria-label="Photoshop"><img src="icon-photoshop-5968520.png" alt="Photoshop"/></div>
+              <div class="work-ic" title="Illustrator" aria-label="Illustrator"><img src="icon-illustrator-5968472.png" alt="Illustrator"/></div>
+              <div class="work-ic" title="AI 이미지 생성" aria-label="AI 이미지 생성"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" width="52" height="52"> <defs> <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="100%"> <stop offset="0%" stop-color="#6B4EFF"/> <stop offset="50%" stop-color="#C84BFF"/> <stop offset="100%" stop-color="#FF6B9D"/> </linearGradient> </defs> <rect width="52" height="52" rx="10" fill="url(#aiGrad)"/> <path d="M26 9 L28.2 21.8 L41 24 L28.2 26.2 L26 39 L23.8 26.2 L11 24 L23.8 21.8 Z" fill="white"/> <path d="M39 34 L40 39 L45 40 L40 41 L39 46 L38 41 L33 40 L38 39 Z" fill="white" opacity="0.75"/> <path d="M13 9 L13.8 12.2 L17 13 L13.8 13.8 L13 17 L12.2 13.8 L9 13 L12.2 12.2 Z" fill="white" opacity="0.65"/> </svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="work-image reveal">
+        <p class="longview-label"><span class="dot"></span>상세페이지 전체 · 스크롤하여 보기</p>
+        <div class="work-longview-wrap">
+                    <div class="work-longview">
+            <img class="lv-img" src="page1%20(1).webp" alt="오로라 오브 펜던트 상세페이지 01" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="page1%20(2).webp" alt="오로라 오브 펜던트 상세페이지 02" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="page1%20(3).webp" alt="오로라 오브 펜던트 상세페이지 03" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="page1%20(4).webp" alt="오로라 오브 펜던트 상세페이지 04" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="page1%20(5).webp" alt="오로라 오브 펜던트 상세페이지 05" onerror="this.style.display='none'"/>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 작업 02 (인라인 롱뷰: 페이지1과 동일 구조) -->
+    <article class="work-item inline"
+             data-num="Portfolio Page.2"
+             data-title="프리미아키친 맞춤형 신발장 상세페이지"
+             data-images="page2%20(1).webp,page2%20(2).webp,page2%20(3).webp,page2%20(4).webp,page2%20(5).webp,page2%20(6).webp,page2%20(7).webp">
+      <div class="work-meta reveal">
+        <p class="work-num">Portfolio Page.2</p>
+        <h2 class="work-title">프리미아키친 &nbsp; 맞춤형 신발장 &nbsp; 상세페이지</h2>
+        <div class="work-block">
+          <p class="work-block-title">OverView</p>
+          <p class="work-block-body">
+            <strong style="color:#aaa;font-weight:500">프리미아키친</strong> <strong style="color:#aaa;font-weight:500">맞춤형 신발장</strong><br/>
+            상세페이지 제작 프로젝트입니다.<br/><br/>
+            실사 및 AI 이미지를 활용해 제품의 디자인과 수납 기능을<br/>
+            효과적으로 전달하고, 고객이 제품의 특징을 쉽고<br/>
+            직관적으로 이해할 수 있도록 구성하였습니다.
+          </p>
+        </div>
+        <div class="work-block">
+          <p class="work-block-title">Role</p>
+          <ul class="work-keypoints">
+            <li>· 시장 및 경쟁사 리서치</li>
+            <li>· 콘텐츠 기획</li>
+            <li>· 상세페이지 정보 구조 설계</li>
+            <li>· AI 이미지 기획 및 생성</li>
+            <li>· 이미지 보정</li>
+            <li>· 상세페이지 디자인</li>
+          </ul>
+        </div>
+        <div class="work-block">
+          <p class="work-block-title">Skills</p>
+          <div class="work-skill-row">
+            <div class="work-skill-icons">
+              <div class="work-ic" title="Photoshop" aria-label="Photoshop"><img src="icon-photoshop-5968520.png" alt="Photoshop"/></div>
+              <div class="work-ic" title="Illustrator" aria-label="Illustrator"><img src="icon-illustrator-5968472.png" alt="Illustrator"/></div>
+              <div class="work-ic" title="AI 이미지 생성" aria-label="AI 이미지 생성"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" width="52" height="52"> <defs> <linearGradient id="aiGrad" x1="0%" y1="0%" x2="100%" y2="100%"> <stop offset="0%" stop-color="#6B4EFF"/> <stop offset="50%" stop-color="#C84BFF"/> <stop offset="100%" stop-color="#FF6B9D"/> </linearGradient> </defs> <rect width="52" height="52" rx="10" fill="url(#aiGrad)"/> <path d="M26 9 L28.2 21.8 L41 24 L28.2 26.2 L26 39 L23.8 26.2 L11 24 L23.8 21.8 Z" fill="white"/> <path d="M39 34 L40 39 L45 40 L40 41 L39 46 L38 41 L33 40 L38 39 Z" fill="white" opacity="0.75"/> <path d="M13 9 L13.8 12.2 L17 13 L13.8 13.8 L13 17 L12.2 13.8 L9 13 L12.2 12.2 Z" fill="white" opacity="0.65"/> </svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="work-image reveal">
+        <p class="longview-label"><span class="dot"></span>상세페이지 전체 · 스크롤하여 보기</p>
+        <div class="work-longview-wrap">
+          <div class="work-longview">
+            <img class="lv-img" src="page2%20(1).webp" alt="프리미아키친 맞춤형 신발장 상세페이지 01" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="page2%20(2).webp" alt="프리미아키친 맞춤형 신발장 상세페이지 02" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="page2%20(3).webp" alt="프리미아키친 맞춤형 신발장 상세페이지 03" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="page2%20(4).webp" alt="프리미아키친 맞춤형 신발장 상세페이지 04" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="page2%20(5).webp" alt="프리미아키친 맞춤형 신발장 상세페이지 05" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="page2%20(6).webp" alt="프리미아키친 맞춤형 신발장 상세페이지 06" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="page2%20(7).webp" alt="프리미아키친 맞춤형 신발장 상세페이지 07" onerror="this.style.display='none'"/>
+          </div>
+        </div>
+      </div>
+    </article>
+
+
+  </section>
+
+  <!-- BRANDING -------------------------------------- -->
+  <section class="section" id="branding">
+    <div class="sec-title reveal">
+      <span class="bar">|</span>
+      <span class="label">Web Operation</span>
+    </div>
+
+    <div class="branding-inner">
+      <div class="branding-info reveal">
+        <p class="b-sub">Corporate Website</p>
+        <h2 class="b-title"><span>VIEURO &nbsp;</span>KOREA</h2>
+        <p class="b-period">2026.03</p>
+        <p class="b-desc">
+          브랜드 아이덴티티를 효과적으로 전달하기 위해 워드프레스 기반<br/>
+          기업 홈페이지의 콘텐츠 운영 및 디자인 관리 업무를 진행하였습니다.<br/><br/>
+          기존 브랜드 에셋을 활용한 콘텐츠 구성과 AI 기반 영상 제작을 통해<br/>
+          브랜드 경험을 강화하고, 지속적인 콘텐츠 업데이트 및<br/>
+          웹사이트 운영을 담당하였습니다.
+        </p>
+        <ul class="branding-list">
+          <li>브랜드 콘텐츠 기획 및 구성</li>
+          <li>AI 기반 브랜드 영상 제작</li>
+          <li>웹사이트 디자인 관리</li>
+          <li>콘텐츠 업데이트 및 운영</li>
+          <li>브랜드별 정보 구조 정리</li>
+        </ul>
+        <p class="branding-skills"><span class="bs-label">Skills</span>Photoshop / Illustrator / WordPress / AI Imaging / Lightroom</p>
+      </div>
+
+      
+<div class="reveal">
+  <div class="site-frame">
+    <div class="site-frame-bar">
+      <span class="sf-dot r"></span><span class="sf-dot y"></span><span class="sf-dot g"></span>
+      <span class="site-frame-url">vieurokorea.com</span>
+      <a class="site-frame-open" href="https://vieurokorea.com/" target="_blank" rel="noopener noreferrer">열기 ↗</a>
+    </div>
+    <div class="site-frame-body">
+      <img class="site-shot" src="mainview.png" alt="VIEURO KOREA 홈페이지 메인"
+           onerror="this.closest('.site-frame').classList.add('img-missing')"/>
+      <div class="site-shot-missing">
+        이미지를 찾을 수 없습니다.<br/>
+        <code>index.html</code> 과 이미지 파일들이<br/>같은 폴더 안에 있어야 해요.
+      </div>
+    </div>
+    <p class="site-frame-hint">↕ 프레임 안에서 스크롤하여 전체 페이지 보기</p>
+  </div>
+
+  <div class="vieuro-shots">
+    <img src="vieurokorea.com.webp"  alt="VIEURO KOREA 페이지 1" loading="lazy" onerror="this.style.display='none'"/>
+    <img src="vieurokorea.com2.webp" alt="VIEURO KOREA 페이지 2" loading="lazy" onerror="this.style.display='none'"/>
+    <img src="vieurokorea.com3.webp" alt="VIEURO KOREA 페이지 3" loading="lazy" onerror="this.style.display='none'"/>
+  </div>
+
+  <p class="site-frame-caption">워드프레스 기반 기업 홈페이지 운영 · 콘텐츠/디자인 관리</p>
+</div>
+    </div>
+  </section>
+
+
+  <!-- BANNER ---------------------------------------- -->
+  <section class="section" id="banner">
+    <div class="sec-title reveal">
+      <span class="bar">|</span>
+      <span class="label">Banner</span>
+    </div>
+
+    <div class="banner-header reveal">
+      <p class="b-sub">Banner Design</p>
+      <h2 class="b-title"><span>메타/이벤트/광고/썸네일 &nbsp;</span>배너 디자인</h2>
+      <p class="b-period">1hour ~ 3hour</p>
+      <p class="b-desc">
+        자사몰 외 각종 오픈몰, 폐쇄몰 및 SNS 메타광고 등<br/>
+        각 브랜드 컨셉과 몰 특성에 맞게 다양한 배너를 기획/디자인했습니다.
+      </p>
+      <a class="banner-more" href="#">+ MORE VIEW</a>
+    </div>
+
+    <div class="banner-grid reveal">
+      <div class="bn-item"><img src="bnr%20(1).jpg" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 01</div></div>
+      <div class="bn-item"><img src="bnr%20(1).png" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 02</div></div>
+      <div class="bn-item"><img src="bnr%20(2).jpg" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 03</div></div>
+      <div class="bn-item"><img src="bnr%20(2).png" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 04</div></div>
+      <div class="bn-item"><img src="bnr%20(3).jpg" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 05</div></div>
+      <div class="bn-item"><img src="bnr%20(3).png" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 06</div></div>
+      <div class="bn-item"><img src="bnr%20(4).jpg" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 07</div></div>
+      <div class="bn-item"><img src="bnr%20(4).png" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 08</div></div>
+      <div class="bn-item"><img src="bnr%20(5).png" alt="" onerror="this.style.display='none'"/><div class="img-ph">BANNER 09</div></div>
+    </div>
+  </section>
+
+  <!-- CONTACT --------------------------------------- -->
+  <section id="contact">
+    <div class="contact-bg"></div>
+    <div class="contact-overlay"></div>
+    <div class="contact-content reveal">
+      <p class="contact-sub">Looking forward to working with you</p>
+      <h2 class="contact-title">포트폴리오를 봐주셔서 감사합니다.</h2>
+      <p class="contact-desc">귀사와 함께할 기회를 기대하겠습니다.</p>
+      <div class="contact-info">
+        <span>Contact</span>
+        <span class="divider">|</span>
+        <span>010. 0000. 0000</span>
+        <span class="divider">|</span>
+        <a href="mailto:email@example.com">email@example.com</a>
+      </div>
+    </div>
+    <p class="contact-copy">© 2025 Designer Name. All Rights Reserved.</p>
+  </section>
+
+</div><!-- /main -->
+
+<!-- 전체 상세페이지 모달 -->
+<div class="detail-modal" id="detailModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="detail-backdrop" data-close></div>
+  <div class="detail-panel">
+    <div class="detail-head">
+      <div>
+        <p class="d-num" id="detailNum">Portfolio Page</p>
+        <p class="d-title" id="detailTitle">상세페이지</p>
+      </div>
+      <button class="detail-close" type="button" data-close aria-label="닫기">&times;</button>
+    </div>
+    <div class="detail-scroll" id="detailScroll"></div>
+  </div>
+</div>
+
+<script>
+/* =====================================================
+   1. 햄버거 토글
+===================================================== */
+const hamburger = document.getElementById('hamburger');
+const navMenu   = document.getElementById('navMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  navMenu.classList.toggle('open');
+});
+navMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    navMenu.classList.remove('open');
+  });
+});
+
+/* =====================================================
+   2. 스크롤 → 네비 active
+===================================================== */
+const sections = document.querySelectorAll('section[id]');
+const navLinks  = document.querySelectorAll('.nav-menu a');
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    navLinks.forEach(a => a.classList.remove('active'));
+    const active = document.querySelector(`.nav-menu a[href="#${e.target.id}"]`);
+    if (active) active.classList.add('active');
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+
+sections.forEach(s => io.observe(s));
+
+/* =====================================================
+   3. 스크롤 reveal
+===================================================== */
+const revealEls = document.querySelectorAll('.reveal');
+
+function showReveal(el){
+  if (el.classList.contains('on')) return;
+  const siblings = [...el.parentElement.querySelectorAll('.reveal')];
+  const idx = siblings.indexOf(el);
+  el.style.transitionDelay = (idx * 0.07) + 's';
+  el.classList.add('on');
+}
+
+if ('IntersectionObserver' in window) {
+  // threshold:0 → 요소가 화면에 "조금이라도" 들어오면 바로 표시
+  // (기존 0.1은 모바일처럼 화면이 짧고 요소가 길면 10%를 못 채워 영영 안 보일 수 있었음)
+  const revealIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      showReveal(e.target);
+      revealIO.unobserve(e.target);
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+
+  revealEls.forEach(el => revealIO.observe(el));
+
+  // 안전장치: 관찰자가 어떤 이유로든 콜백을 못 받아도 화면이 비지 않도록,
+  // 스크롤·리사이즈·로드 시 화면에 들어온 요소는 직접 표시한다.
+  const revealOnScroll = () => {
+    revealEls.forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) showReveal(el);
+    });
+  };
+  window.addEventListener('scroll', revealOnScroll, { passive: true });
+  window.addEventListener('resize', revealOnScroll);
+  window.addEventListener('load', revealOnScroll);
+  revealOnScroll();
+} else {
+  // IntersectionObserver 미지원 환경 → 애니메이션 없이 전부 즉시 표시
+  revealEls.forEach(el => el.classList.add('on'));
+}
+
+/* =====================================================
+   4. 스무스 앵커 (사이드바 높이 보정)
+===================================================== */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    const offset = window.innerWidth <= 1024 ? 52 : 0;
+    window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+  });
+});
+/* =====================================================
+   5. 전체 상세페이지 모달 (MORE VIEW / 썸네일 클릭)
+===================================================== */
+const detailModal  = document.getElementById('detailModal');
+const detailScroll = document.getElementById('detailScroll');
+const detailTitle  = document.getElementById('detailTitle');
+const detailNum    = document.getElementById('detailNum');
+
+function openDetail(item){
+  const num    = item.getAttribute('data-num')    || 'Portfolio Page';
+  const title  = item.getAttribute('data-title')  || '상세페이지';
+  const images = (item.getAttribute('data-images') || '').split(',').map(s => s.trim()).filter(Boolean);
+
+  detailNum.textContent   = num;
+  detailTitle.textContent = title;
+
+  // 길게 이어지는 상세페이지 이미지들 채우기
+  detailScroll.innerHTML = images.map(src => `
+    <div class="detail-page-img">
+      <img src="${src}" alt="" onerror="this.style.display='none'"/>
+      <div class="img-ph">
+        <span>DETAIL PAGE</span>
+        <span style="font-size:8px;color:#2a2a2a">/${src}</span>
+      </div>
+    </div>`).join('');
+
+  detailScroll.scrollTop = 0;
+  detailModal.classList.add('open');
+  detailModal.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail(){
+  detailModal.classList.remove('open');
+  detailModal.setAttribute('aria-hidden','true');
+  document.body.style.overflow = '';
+  detailScroll.innerHTML = '';
+}
+
+// MORE VIEW 버튼 + 썸네일 클릭 → 해당 작업물(article)의 데이터로 모달 열기
+document.querySelectorAll('.work-more, .work-thumb').forEach(el => {
+  el.addEventListener('click', () => {
+    const item = el.closest('.work-item');
+    if (item) openDetail(item);
+  });
+});
+
+// 닫기: 닫기버튼 / 배경 클릭 / ESC
+detailModal.querySelectorAll('[data-close]').forEach(el => {
+  el.addEventListener('click', closeDetail);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && detailModal.classList.contains('open')) closeDetail();
+});
+
+</script>
+</body>
+</html>
