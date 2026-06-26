@@ -289,12 +289,17 @@ ul{list-style:none}
 }
 .profile-photo{
   width:200px;
+  height:250px;
   margin-bottom:22px;
   background:transparent;
   position:relative;
+  border-radius:50%;        /* 타원형 마스크 */
+  overflow:hidden;
 }
 .profile-photo img{
-  width:100%;height:auto;display:block;
+  width:100%;height:100%;display:block;
+  object-fit:cover;         /* 타원 틀에 꽉 차게 */
+  object-position:center top;
 }
 .profile-photo-ph{display:none}
 .profile-tagline{
@@ -670,6 +675,228 @@ ul{list-style:none}
 .b-img img{position:absolute;inset:0}
 
 /* =====================================================
+   AI CREATIVE (사진/영상)
+===================================================== */
+#ai-works{background:#151515}
+
+.ai-inner{
+  display:grid;
+  grid-template-columns:1fr 1.4fr;
+  gap:70px;
+  align-items:start;
+}
+.ai-info .b-sub{
+  font-size:9px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;
+  color:#8B5CF6;margin-bottom:10px;
+}
+.ai-info .b-title{
+  font-size:clamp(1.2rem,2.2vw,2rem);
+  font-weight:700;line-height:1.3;margin-bottom:6px;
+}
+.ai-info .b-title span{font-weight:300}
+.ai-info .b-period{font-size:10.5px;color:#666;margin-bottom:20px}
+.ai-info .b-desc{
+  font-size:12px;color:#888;line-height:1.95;font-weight:300;
+  margin-bottom:20px;
+}
+.ai-list{display:flex;flex-direction:column;gap:6px;margin-bottom:24px}
+.ai-list li{
+  font-size:11.5px;color:#888;font-weight:300;
+  padding-left:14px;position:relative;line-height:1.6;
+}
+.ai-list li::before{content:'-';position:absolute;left:0;color:#8B5CF6}
+.ai-skills{
+  font-size:11px;color:#888;font-weight:300;line-height:1.7;
+  letter-spacing:0.02em;
+}
+.ai-skills .bs-label{
+  display:block;font-size:9px;font-weight:700;letter-spacing:0.18em;
+  text-transform:uppercase;color:#8B5CF6;margin-bottom:12px;
+}
+.ai-skills-grid{gap:18px}
+
+/* 오른쪽: 영상 2개 (상단) */
+.ai-videos{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin-bottom:8px;
+}
+.ai-item{
+  position:relative;overflow:hidden;
+  background:#1e1e1e;
+  aspect-ratio:9/16;
+  transition:transform 0.4s;
+}
+.ai-item:hover{transform:scale(1.02)}
+.ai-item img,
+.ai-item video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  display:block;
+}
+.ai-item .ai-tag{
+  position:absolute;top:8px;left:8px;z-index:2;
+  font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+  color:#fff;background:rgba(139,92,246,0.85);
+  padding:3px 8px;border-radius:2px;
+  pointer-events:none;
+}
+
+/* 파일 없을 때 보이는 자리(플레이스홀더) */
+.ai-ph{
+  position:absolute;inset:0;z-index:1;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  background:#1a1a1a;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:22px 22px;
+  color:#555;font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;
+  text-align:center;padding:10px;
+}
+.ai-ph small{font-size:8px;font-weight:400;letter-spacing:0.04em;color:#3a3a3a;text-transform:none}
+
+/* 사진 캐러셀 (좌우 스와이프/드래그) */
+.ai-carousel{position:relative}
+.ai-track{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+  cursor:grab;
+  scrollbar-width:none;
+}
+.ai-track::-webkit-scrollbar{display:none}
+.ai-track.dragging{cursor:grabbing;scroll-behavior:auto}
+.ai-track.dragging .ai-slide{pointer-events:none}
+.ai-slide{
+  flex:0 0 auto;
+  width:calc((100% - 8px) / 2);   /* 한 화면에 2장 */
+  aspect-ratio:1/1;
+  scroll-snap-align:start;
+  position:relative;overflow:hidden;background:#1e1e1e;
+}
+.ai-slide img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  display:block;
+  -webkit-user-drag:none;user-select:none;
+}
+.ai-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  z-index:4;width:34px;height:34px;border-radius:50%;
+  border:none;cursor:pointer;
+  background:rgba(0,0,0,0.55);color:#fff;font-size:15px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.3s,opacity 0.3s;
+}
+.ai-arrow:hover{background:#8B5CF6}
+.ai-arrow.prev{left:6px}
+.ai-arrow.next{right:6px}
+.ai-arrow[disabled]{opacity:0;pointer-events:none}
+.ai-more{
+  display:inline-block;margin-top:16px;
+  font-size:10.5px;font-weight:600;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:#fff;background:none;cursor:pointer;
+  border:1px solid rgba(255,255,255,0.2);
+  padding:9px 20px;
+  transition:border-color 0.3s,color 0.3s;
+}
+.ai-more:hover{border-color:#8B5CF6;color:#8B5CF6}
+
+/* AI 이미지 그리드 모달 */
+.ai-modal{
+  position:fixed;inset:0;z-index:400;
+  display:none;align-items:center;justify-content:center;
+  padding:32px 18px;
+}
+.ai-modal.open{display:flex}
+.ai-modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.85)}
+.ai-modal-panel{
+  position:relative;z-index:1;
+  width:100%;max-width:900px;
+  max-height:92vh;
+  background:#0e0e0e;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:8px;
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.ai-modal-head{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  padding:18px 22px;border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.ai-modal-head .amh-num{
+  font-size:9px;font-weight:700;letter-spacing:0.2em;
+  text-transform:uppercase;color:#8B5CF6;
+}
+.ai-modal-head .amh-title{font-size:14px;font-weight:700;color:#fff;margin-top:4px}
+.ai-modal-close{
+  background:none;border:none;color:#999;font-size:26px;line-height:1;
+  cursor:pointer;padding:0 2px;transition:color 0.2s;
+}
+.ai-modal-close:hover{color:#fff}
+
+.ai-modal-body{position:relative;height:68vh}
+.ai-pages{
+  display:flex;height:100%;
+  overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  cursor:grab;scrollbar-width:none;
+}
+.ai-pages::-webkit-scrollbar{display:none}
+.ai-pages.dragging{cursor:grabbing;scroll-behavior:auto}
+.ai-pages.dragging .ai-cell{pointer-events:none}
+.ai-page{
+  flex:0 0 100%;scroll-snap-align:start;
+  overflow-y:auto;padding:18px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-auto-rows:1fr;
+  gap:10px;align-content:start;
+}
+.ai-cell{
+  aspect-ratio:1/1;position:relative;overflow:hidden;
+  background:#1a1a1a;border-radius:4px;
+}
+.ai-cell img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;display:block;
+  -webkit-user-drag:none;user-select:none;
+}
+.ai-page-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  z-index:3;width:38px;height:38px;border-radius:50%;
+  border:none;cursor:pointer;
+  background:rgba(0,0,0,0.6);color:#fff;font-size:17px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.3s,opacity 0.3s;
+}
+.ai-page-arrow:hover{background:#8B5CF6}
+.ai-page-arrow.prev{left:10px}
+.ai-page-arrow.next{right:10px}
+.ai-page-arrow[disabled],
+.ai-page-arrow.hidden{opacity:0;pointer-events:none}
+.ai-dots{
+  display:flex;justify-content:center;gap:7px;
+  padding:14px;min-height:14px;
+}
+.ai-dot{
+  width:7px;height:7px;border-radius:50%;border:none;
+  background:#3a3a3a;cursor:pointer;padding:0;transition:background 0.3s;
+}
+.ai-dot.active{background:#8B5CF6}
+.ai-caption{
+  margin-top:14px;
+  font-size:10.5px;color:#555;letter-spacing:0.05em;line-height:1.6;
+}
+
+/* =====================================================
    BANNER
 ===================================================== */
 #banner{background:#151515}
@@ -894,6 +1121,8 @@ ul{list-style:none}
   .vieuro-shots{grid-template-columns:1fr;gap:10px}
   .branding-gallery{grid-template-columns:repeat(3,1fr)}
 
+  .ai-inner{grid-template-columns:1fr;gap:40px}
+
   .banner-grid{grid-template-columns:repeat(3,1fr)}
 }
 
@@ -904,6 +1133,9 @@ ul{list-style:none}
   .banner-grid{grid-template-columns:repeat(3,1fr)}
   .skills-grid{gap:14px}
   .history-list li{grid-template-columns:1fr;gap:3px}
+  .ai-slide{width:70%}
+  .ai-modal-body{height:62vh}
+  .ai-page{padding:12px;gap:7px}
 }
 </style>
 </head>
@@ -920,6 +1152,7 @@ ul{list-style:none}
     <li><a href="#page"             >Page</a></li>
     <li><a href="#branding"         >Web Operation</a></li>
     <li><a href="#banner"           >Banner</a></li>
+    <li><a href="#ai-works"         >AI Creative</a></li>
     <li><a href="#contact"          >Contact</a></li>
   </ul>
   <p class="nav-bottom">© 2025</p>
@@ -1301,8 +1534,6 @@ ul{list-style:none}
 </div>
     </div>
   </section>
-
-
   <!-- BANNER ---------------------------------------- -->
   <section class="section" id="banner">
     <div class="sec-title reveal">
@@ -1333,6 +1564,114 @@ ul{list-style:none}
         <div class="bn-item"><img src="portfolio_webp_optimized/bnr_9.png" alt="배너 디자인 09" onerror="this.style.display='none'"/></div>
       </div>
     </article>
+  </section>
+
+
+
+  <!-- AI CREATIVE ------------------------------------ -->
+  <section class="section" id="ai-works">
+    <div class="sec-title reveal">
+      <span class="bar">|</span>
+      <span class="label">AI Creative</span>
+    </div>
+
+    <div class="ai-inner">
+      <!-- 왼쪽: 설명 -->
+      <div class="ai-info reveal">
+        <p class="b-sub">AI Creative Works</p>
+        <h2 class="b-title"><span>AI 기반 &nbsp;</span>이미지 · 영상 제작</h2>
+        <p class="b-period">2025 ~</p>
+        <p class="b-desc">
+          생성형 AI 도구를 활용하여 브랜드 콘셉트에 맞는<br/>
+          이미지와 영상을 직접 기획하고 제작했습니다.<br/><br/>
+          프롬프트 설계부터 컷 구성, 후보정·편집까지 전 과정을 진행하며<br/>
+          브랜드 무드에 맞는 비주얼 디렉팅을 담당했습니다.
+        </p>
+        <ul class="ai-list">
+          <li>AI 이미지 생성 및 후보정</li>
+          <li>AI 영상 생성 및 편집</li>
+          <li>브랜드 무드보드 · 비주얼 디렉팅</li>
+          <li>콘텐츠 컷 기획 및 구성</li>
+        </ul>
+        <div class="ai-skills">
+          <span class="bs-label">Skills</span>
+          <div class="skills-grid ai-skills-grid">
+            <div class="skill-item">
+              <div class="skill-icon">
+                <img src="portfolio_webp_optimized/icon-photoshop-5968520.png" alt="Photoshop"/>
+              </div>
+              <span class="skill-name">Photoshop</span>
+            </div>
+            <div class="skill-item">
+              <div class="skill-icon">
+                <img src="portfolio_webp_optimized/icon-premiere-pro-5968525.png" alt="Premiere Pro"/>
+              </div>
+              <span class="skill-name">Premiere Pro</span>
+            </div>
+            <div class="skill-item">
+              <div class="skill-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" width="52" height="52">
+                  <defs>
+                    <linearGradient id="aiGradAI" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#6B4EFF"/>
+                      <stop offset="50%" stop-color="#C84BFF"/>
+                      <stop offset="100%" stop-color="#FF6B9D"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="52" height="52" rx="10" fill="url(#aiGradAI)"/>
+                  <path d="M26 9 L28.2 21.8 L41 24 L28.2 26.2 L26 39 L23.8 26.2 L11 24 L23.8 21.8 Z" fill="white"/>
+                  <path d="M39 34 L40 39 L45 40 L40 41 L39 46 L38 41 L33 40 L38 39 Z" fill="white" opacity="0.75"/>
+                  <path d="M13 9 L13.8 12.2 L17 13 L13.8 13.8 L13 17 L12.2 13.8 L9 13 L12.2 12.2 Z" fill="white" opacity="0.65"/>
+                </svg>
+              </div>
+              <span class="skill-name">AI Imaging</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 오른쪽: 영상 2개 + 사진 캐러셀 -->
+      <div class="ai-right reveal">
+
+        <!-- 영상 2개 -->
+        <div class="ai-videos">
+          <div class="ai-item">
+            <span class="ai-tag">Video</span>
+            <div class="ai-ph">KIT<small>kit.mp4</small></div>
+            <video src="portfolio_webp_optimized/kit.mp4"
+                   autoplay muted loop playsinline controls preload="metadata"
+                   onerror="this.style.display='none'"></video>
+          </div>
+          <div class="ai-item">
+            <span class="ai-tag">Video</span>
+            <div class="ai-ph">LIGHT<small>llight1.mp4</small></div>
+            <video src="portfolio_webp_optimized/llight1.mp4"
+                   autoplay muted loop playsinline controls preload="metadata"
+                   onerror="this.style.display='none'"></video>
+          </div>
+        </div>
+
+        <!-- 사진: 좌우로 넘기는 캐러셀 -->
+        <div class="ai-carousel">
+          <button class="ai-arrow prev" type="button" aria-label="이전">‹</button>
+          <div class="ai-track" id="aiTrack">
+            <div class="ai-slide"><div class="ai-ph">KIT<small>kit.png</small></div><img src="portfolio_webp_optimized/kit.png" alt="AI 생성 이미지 - KIT" loading="lazy" onerror="this.style.display='none'"/></div>
+            <div class="ai-slide"><div class="ai-ph">LIGHT 02<small>llight(2).png</small></div><img src="portfolio_webp_optimized/llight(2).png" alt="AI 생성 이미지 - LIGHT 02" loading="lazy" onerror="this.style.display='none'"/></div>
+            <div class="ai-slide"><div class="ai-ph">LIGHT 03<small>llight(3).png</small></div><img src="portfolio_webp_optimized/llight(3).png" alt="AI 생성 이미지 - LIGHT 03" loading="lazy" onerror="this.style.display='none'"/></div>
+          </div>
+          <button class="ai-arrow next" type="button" aria-label="다음">›</button>
+        </div>
+
+        <button class="ai-more" type="button"
+                data-num="AI Creative"
+                data-title="AI 기반 이미지 · 영상 제작"
+                data-images="portfolio_webp_optimized/Ai_img(1).png,portfolio_webp_optimized/Ai_img(2).png,portfolio_webp_optimized/Ai_img(3).png,portfolio_webp_optimized/Ai_img(4).png,portfolio_webp_optimized/Ai_img(5).png,portfolio_webp_optimized/Ai_img(6).png,portfolio_webp_optimized/Ai_img(7).png,portfolio_webp_optimized/Ai_img(8).png,portfolio_webp_optimized/Ai_img(9).png,portfolio_webp_optimized/ai_img2(1).png,portfolio_webp_optimized/ai_img2(2).png,portfolio_webp_optimized/ai_img2(3).png,portfolio_webp_optimized/ai_img2(4).png,portfolio_webp_optimized/ai_img2(5).png,portfolio_webp_optimized/ai_img2(6).png,portfolio_webp_optimized/ai_img2(7).png,portfolio_webp_optimized/ai_img2(8).png,portfolio_webp_optimized/ai_img2(9).png">
+          MORE VIEW +
+        </button>
+
+        <p class="ai-caption">생성형 AI 기반 이미지 · 영상 콘텐츠 · 직접 기획 및 제작</p>
+      </div>
+    </div>
   </section>
 
   <!-- CONTACT --------------------------------------- -->
@@ -1368,6 +1707,26 @@ ul{list-style:none}
       <button class="detail-close" type="button" data-close aria-label="닫기">&times;</button>
     </div>
     <div class="detail-scroll" id="detailScroll"></div>
+  </div>
+</div>
+
+<!-- AI 이미지 그리드 모달 (3×3, 9장 초과 시 좌우 페이지) -->
+<div class="ai-modal" id="aiModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="ai-modal-backdrop" data-ai-close></div>
+  <div class="ai-modal-panel">
+    <div class="ai-modal-head">
+      <div>
+        <p class="amh-num" id="aiModalNum">AI Creative</p>
+        <p class="amh-title" id="aiModalTitle">AI 기반 이미지</p>
+      </div>
+      <button class="ai-modal-close" type="button" data-ai-close aria-label="닫기">&times;</button>
+    </div>
+    <div class="ai-modal-body">
+      <button class="ai-page-arrow prev" type="button" aria-label="이전 페이지">‹</button>
+      <div class="ai-pages" id="aiPages"></div>
+      <button class="ai-page-arrow next" type="button" aria-label="다음 페이지">›</button>
+    </div>
+    <div class="ai-dots" id="aiDots"></div>
   </div>
 </div>
 
@@ -1514,6 +1873,164 @@ detailModal.querySelectorAll('[data-close]').forEach(el => {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && detailModal.classList.contains('open')) closeDetail();
 });
+
+/* =====================================================
+   6. AI 사진 캐러셀 (좌우 넘기기 · 드래그)
+===================================================== */
+(function(){
+  const track = document.getElementById('aiTrack');
+  if (!track) return;
+  const carousel = track.closest('.ai-carousel');
+  const prev = carousel.querySelector('.ai-arrow.prev');
+  const next = carousel.querySelector('.ai-arrow.next');
+
+  // 한 번에 넘길 거리 = 현재 보이는 너비의 약 90%
+  const step = () => Math.round(track.clientWidth * 0.9);
+
+  function updateArrows(){
+    const maxScroll = track.scrollWidth - track.clientWidth - 1;
+    prev.disabled = track.scrollLeft <= 0;
+    next.disabled = track.scrollLeft >= maxScroll;
+  }
+
+  prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+  next.addEventListener('click', () => track.scrollBy({ left:  step(), behavior: 'smooth' }));
+  track.addEventListener('scroll', updateArrows, { passive: true });
+  window.addEventListener('resize', updateArrows);
+  updateArrows();
+
+  // 마우스 드래그로 넘기기 (모바일은 기본 터치 스와이프로 동작)
+  let isDown = false, startX = 0, startScroll = 0, moved = false;
+  track.addEventListener('mousedown', e => {
+    isDown = true; moved = false;
+    startX = e.pageX;
+    startScroll = track.scrollLeft;
+    track.classList.add('dragging');
+  });
+  window.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    const dx = e.pageX - startX;
+    if (Math.abs(dx) > 4) moved = true;
+    track.scrollLeft = startScroll - dx;
+  });
+  window.addEventListener('mouseup', () => {
+    if (!isDown) return;
+    isDown = false;
+    track.classList.remove('dragging');
+  });
+  // 드래그 직후 이미지 클릭(이동) 방지
+  track.addEventListener('click', e => { if (moved) e.preventDefault(); }, true);
+})();
+
+/* =====================================================
+   7. AI MORE VIEW — 3×3 그리드 모달 (9장 초과 시 좌우 페이지)
+===================================================== */
+(function(){
+  const modal  = document.getElementById('aiModal');
+  if (!modal) return;
+  const pagesEl = document.getElementById('aiPages');
+  const dotsEl  = document.getElementById('aiDots');
+  const numEl   = document.getElementById('aiModalNum');
+  const titleEl = document.getElementById('aiModalTitle');
+  const prev    = modal.querySelector('.ai-page-arrow.prev');
+  const next    = modal.querySelector('.ai-page-arrow.next');
+  const PER_PAGE = 9;   // 3 × 3
+
+  function buildGrid(images){
+    pagesEl.innerHTML = '';
+    dotsEl.innerHTML  = '';
+    let pageCount = 0;
+    for (let i = 0; i < images.length; i += PER_PAGE){
+      const group = images.slice(i, i + PER_PAGE);
+      const page = document.createElement('div');
+      page.className = 'ai-page';
+      page.innerHTML = group.map(src => `
+        <div class="ai-cell">
+          <img src="${src}" alt="" loading="lazy" onerror="this.closest('.ai-cell').style.display='none'"/>
+        </div>`).join('');
+      pagesEl.appendChild(page);
+      pageCount++;
+    }
+    // 페이지가 2개 이상일 때만 점/화살표 노출
+    const multi = pageCount > 1;
+    prev.classList.toggle('hidden', !multi);
+    next.classList.toggle('hidden', !multi);
+    if (multi){
+      for (let p = 0; p < pageCount; p++){
+        const dot = document.createElement('button');
+        dot.className = 'ai-dot' + (p === 0 ? ' active' : '');
+        dot.type = 'button';
+        dot.addEventListener('click', () => {
+          pagesEl.scrollTo({ left: pagesEl.clientWidth * p, behavior: 'smooth' });
+        });
+        dotsEl.appendChild(dot);
+      }
+    }
+    updateNav();
+  }
+
+  function updateNav(){
+    const w = pagesEl.clientWidth || 1;
+    const idx = Math.round(pagesEl.scrollLeft / w);
+    const maxScroll = pagesEl.scrollWidth - pagesEl.clientWidth - 1;
+    prev.disabled = pagesEl.scrollLeft <= 0;
+    next.disabled = pagesEl.scrollLeft >= maxScroll;
+    dotsEl.querySelectorAll('.ai-dot').forEach((d, i) =>
+      d.classList.toggle('active', i === idx));
+  }
+
+  function open(btn){
+    numEl.textContent   = btn.getAttribute('data-num')   || 'AI Creative';
+    titleEl.textContent = btn.getAttribute('data-title') || 'AI 기반 이미지';
+    const images = (btn.getAttribute('data-images') || '')
+      .split(',').map(s => s.trim()).filter(Boolean);
+    buildGrid(images);
+    pagesEl.scrollLeft = 0;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    updateNav();
+  }
+  function close(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.ai-more').forEach(btn =>
+    btn.addEventListener('click', () => open(btn)));
+
+  prev.addEventListener('click', () =>
+    pagesEl.scrollBy({ left: -pagesEl.clientWidth, behavior: 'smooth' }));
+  next.addEventListener('click', () =>
+    pagesEl.scrollBy({ left:  pagesEl.clientWidth, behavior: 'smooth' }));
+  pagesEl.addEventListener('scroll', updateNav, { passive: true });
+  window.addEventListener('resize', updateNav);
+
+  modal.querySelectorAll('[data-ai-close]').forEach(el =>
+    el.addEventListener('click', close));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) close();
+  });
+
+  // 마우스 드래그로 페이지 넘기기
+  let down = false, sx = 0, ss = 0, mv = false;
+  pagesEl.addEventListener('mousedown', e => {
+    down = true; mv = false; sx = e.pageX; ss = pagesEl.scrollLeft;
+    pagesEl.classList.add('dragging');
+  });
+  window.addEventListener('mousemove', e => {
+    if (!down) return;
+    const dx = e.pageX - sx;
+    if (Math.abs(dx) > 4) mv = true;
+    pagesEl.scrollLeft = ss - dx;
+  });
+  window.addEventListener('mouseup', () => {
+    if (!down) return;
+    down = false;
+    pagesEl.classList.remove('dragging');
+  });
+})();
 
 </script>
 
