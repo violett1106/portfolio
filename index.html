@@ -735,6 +735,7 @@ ul{list-style:none}
   width:100%;height:100%;
   object-fit:cover;object-position:center;
   display:block;
+  z-index:2;
 }
 .ai-item .ai-tag{
   position:absolute;top:8px;left:8px;z-index:2;
@@ -785,6 +786,7 @@ ul{list-style:none}
   width:100%;height:100%;
   object-fit:cover;object-position:center;
   display:block;
+  z-index:2;
   -webkit-user-drag:none;user-select:none;
 }
 .ai-arrow{
@@ -1766,6 +1768,26 @@ ul{list-style:none}
 </div>
 
 <script>
+/* =====================================================
+   0. 미디어 로드 시 플레이스홀더 숨기기
+===================================================== */
+document.querySelectorAll('.ai-item video, .ai-item img, .ai-slide img').forEach(function(el){
+  function hidePh(){
+    var parent = el.closest ? el.closest('.ai-item, .ai-slide') : null;
+    var ph = parent ? parent.querySelector('.ai-ph') : null;
+    if(ph) ph.style.display = 'none';
+  }
+  if(el.tagName === 'VIDEO'){
+    el.addEventListener('loadeddata', hidePh);
+    el.addEventListener('canplay', hidePh);
+    if(el.readyState >= 2) hidePh();
+  } else {
+    el.addEventListener('load', hidePh);
+    if(el.complete && el.naturalWidth > 0) hidePh();
+  }
+  el.addEventListener('error', function(){ el.style.display='none'; });
+});
+
 /* =====================================================
    1. 햄버거 토글
 ===================================================== */
