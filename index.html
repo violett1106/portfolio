@@ -1676,14 +1676,14 @@ ul{list-style:none}
             <span class="ai-tag">Video</span>
             <div class="ai-ph">KIT<small>kit.mp4</small></div>
             <video src="/portfolio/portfolio_webp_optimized/kit.mp4"
-                   autoplay muted loop playsinline controls preload="metadata"
+                   autoplay muted loop playsinline controls preload="auto"
                    onerror="this.style.display='none'"></video>
           </div>
           <div class="ai-item">
             <span class="ai-tag">Video</span>
             <div class="ai-ph">LIGHT<small>llight1.mp4</small></div>
             <video src="/portfolio/portfolio_webp_optimized/llight1.mp4"
-                   autoplay muted loop playsinline controls preload="metadata"
+                   autoplay muted loop playsinline controls preload="auto"
                    onerror="this.style.display='none'"></video>
           </div>
         </div>
@@ -1778,9 +1778,20 @@ document.querySelectorAll('.ai-item video, .ai-item img, .ai-slide img').forEach
     if(ph) ph.style.display = 'none';
   }
   if(el.tagName === 'VIDEO'){
+    el.addEventListener('loadstart', hidePh);
     el.addEventListener('loadeddata', hidePh);
     el.addEventListener('canplay', hidePh);
-    if(el.readyState >= 2) hidePh();
+    el.addEventListener('playing', hidePh);
+    if(el.readyState >= 1) hidePh();
+    // 일부 모바일 브라우저는 autoplay를 막을 수 있어 명시적으로 재생 시도
+    var playPromise = el.play();
+    if(playPromise && typeof playPromise.catch === 'function'){
+      playPromise.catch(function(){ /* 자동재생 차단 시 무시, 컨트롤로 재생 가능 */ });
+    }
+    // 최후 안전장치: 일정 시간 후에도 안 떴으면 영상 자체가 깨진 게 아니라면 강제로 표시
+    setTimeout(function(){
+      if(el.error === null && el.networkState !== 3){ hidePh(); }
+    }, 2000);
   } else {
     el.addEventListener('load', hidePh);
     if(el.complete && el.naturalWidth > 0) hidePh();
