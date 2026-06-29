@@ -813,67 +813,77 @@ ul{list-style:none}
 .ai-more:hover{border-color:#8B5CF6;color:#8B5CF6}
 
 /* =====================================================
-   AI 이미지 그리드 모달 — 완전 재설계
-   구조: fixed 오버레이 > 패널(flex col) > 헤더(fixed height) + 스크롤 바디
+   AI 이미지 그리드 모달
 ===================================================== */
 .ai-modal{
   position:fixed;inset:0;z-index:400;
-  display:none;align-items:center;justify-content:center;
-  padding:20px 16px;
+  display:none;
 }
-.ai-modal.open{display:flex}
+.ai-modal.open{display:block}
 .ai-modal-backdrop{
   position:absolute;inset:0;
   background:rgba(0,0,0,0.88);
 }
+
+/* 패널: 화면 중앙 고정, 높이도 명시적으로 지정 */
 .ai-modal-panel{
-  position:relative;z-index:1;
-  width:min(820px,95vw);
-  max-height:90vh;
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:min(820px,94vw);
+  height:min(680px,90vh);
   background:#0e0e0e;
   border:1px solid rgba(255,255,255,0.08);
   border-radius:10px;
+  overflow:hidden;
   display:flex;
   flex-direction:column;
-  overflow:hidden; /* 패널 밖으로 안 튀어나오게 */
 }
 
-/* 헤더 — 절대 줄어들지 않음 */
+/* 헤더: 고정 높이 */
 .ai-modal-head{
-  flex:0 0 auto;
-  display:flex;align-items:flex-start;justify-content:space-between;
-  padding:16px 20px 14px;
+  flex:0 0 58px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;
   border-bottom:1px solid rgba(255,255,255,0.06);
-  background:#0e0e0e;
-  z-index:2;
 }
 .ai-modal-head .amh-num{
   font-size:9px;font-weight:700;letter-spacing:0.2em;
-  text-transform:uppercase;color:#8B5CF6;margin-bottom:4px;
+  text-transform:uppercase;color:#8B5CF6;margin-bottom:3px;
 }
 .ai-modal-head .amh-title{
-  font-size:14px;font-weight:700;color:#fff;
+  font-size:13px;font-weight:700;color:#fff;
 }
 .ai-modal-close{
-  background:none;border:none;color:#666;font-size:24px;line-height:1;
+  background:none;border:none;color:#666;font-size:26px;line-height:1;
   cursor:pointer;padding:0;flex-shrink:0;transition:color 0.2s;
 }
 .ai-modal-close:hover{color:#fff}
 
-/* 바디 — 남은 공간 차지하고 세로 스크롤 */
+/* 닷: 고정 높이 */
+.ai-dots{
+  flex:0 0 36px;
+  display:flex;justify-content:center;align-items:center;gap:7px;
+}
+.ai-dot{
+  width:7px;height:7px;border-radius:50%;border:none;
+  background:#3a3a3a;cursor:pointer;padding:0;transition:background 0.3s;
+}
+.ai-dot.active{background:#8B5CF6}
+
+/* 바디: 헤더(58px) + 닷(36px) 빼고 나머지 전부 */
 .ai-modal-body{
-  flex:1 1 auto;
-  min-height:0;        /* flex child 필수 */
+  flex:1 1 0;
+  min-height:0;
   position:relative;
-  overflow:hidden;     /* 가로는 pages가 처리 */
+  overflow:hidden;
 }
 
-/* 가로 페이지 슬라이드 컨테이너 */
+/* 가로 슬라이드 래퍼 */
 .ai-pages{
   display:flex;
-  width:100%;
-  height:100%;
-  overflow-x:scroll;
+  width:100%;height:100%;
+  overflow-x:auto;
   overflow-y:hidden;
   scroll-snap-type:x mandatory;
   scroll-behavior:smooth;
@@ -884,28 +894,29 @@ ul{list-style:none}
 .ai-pages.dragging{cursor:grabbing;scroll-behavior:auto}
 .ai-pages.dragging .ai-cell{pointer-events:none}
 
-/* 각 페이지(9장) — 가로 100% 고정, 세로는 내용만큼 늘어남 + 스크롤 */
+/* 각 페이지: 가로 100% 고정, 세로는 body 높이 꽉 채우고 세로 스크롤 */
 .ai-page{
   flex:0 0 100%;
   height:100%;
   scroll-snap-align:start;
-  overflow-y:auto;          /* ← 핵심: 세로 스크롤 여기서 */
   overflow-x:hidden;
+  overflow-y:auto;
   scrollbar-width:thin;
   scrollbar-color:#8B5CF6 #111;
   padding:12px;
   box-sizing:border-box;
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  /* 각 셀이 열 너비와 동일한 높이가 되도록 aspect-ratio 활용 */
-  grid-auto-rows:1fr;
+  grid-auto-rows:calc((min(820px,94vw) - 24px - 16px) / 3);
   gap:8px;
   align-content:start;
 }
+.ai-page::-webkit-scrollbar{width:5px}
+.ai-page::-webkit-scrollbar-track{background:#111}
+.ai-page::-webkit-scrollbar-thumb{background:#8B5CF6;border-radius:3px}
 
-/* 셀 — 정사각형 강제 */
+/* 셀: grid-auto-rows가 높이를 결정 */
 .ai-cell{
-  aspect-ratio:1/1;
   background:#1a1a1a;
   border-radius:4px;
   overflow:hidden;
@@ -918,6 +929,21 @@ ul{list-style:none}
   display:block;
   -webkit-user-drag:none;user-select:none;
 }
+
+/* 좌우 화살표 */
+.ai-page-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  z-index:3;width:38px;height:38px;border-radius:50%;
+  border:none;cursor:pointer;
+  background:rgba(0,0,0,0.65);color:#fff;font-size:17px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.3s,opacity 0.3s;
+}
+.ai-page-arrow:hover{background:#8B5CF6}
+.ai-page-arrow.prev{left:10px}
+.ai-page-arrow.next{right:10px}
+.ai-page-arrow[disabled],
+.ai-page-arrow.hidden{opacity:0;pointer-events:none}
 .ai-page-arrow{
   position:absolute;top:50%;transform:translateY(-50%);
   z-index:3;width:38px;height:38px;border-radius:50%;
@@ -1172,9 +1198,11 @@ ul{list-style:none}
 
   .ai-inner{grid-template-columns:1fr;gap:40px}
 
-  .ai-modal{padding:12px 8px}
-  .ai-modal-panel{width:98vw;max-height:94vh}
-  .ai-page{padding:8px;gap:5px}
+  .ai-modal-panel{width:98vw;height:88vh}
+  .ai-page{
+    grid-auto-rows:calc((98vw - 24px - 16px) / 3);
+    padding:8px;gap:5px;
+  }
 
   .banner-grid{grid-template-columns:repeat(3,1fr)}
 }
