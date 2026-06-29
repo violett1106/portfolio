@@ -282,10 +282,15 @@ width:clamp(180px,20vw,320px);
 height:auto;
 filter:drop-shadow(0 18px 30px rgba(139,92,246,.25));
 transform-origin:center bottom;
-animation:boraBounce 1.8s cubic-bezier(.25,.9,.3,1);
+animation:boraFloat 3.2s ease-in-out infinite;
 }
-@keyframes boraBounce{
-0%{transform:translateY(-180px) scale(.82);}
+@keyframes boraFloat{
+0%{transform:translateY(0) scale(1);}
+25%{transform:translateY(-10px) scale(1.02) rotate(-1deg);}
+50%{transform:translateY(0) scale(1);}
+75%{transform:translateY(-6px) scale(.99) rotate(1deg);}
+100%{transform:translateY(0) scale(1);}
+}
 35%{transform:translateY(0) scaleY(.88) scaleX(1.08);}
 55%{transform:translateY(-42px);}
 72%{transform:translateY(0) scale(.98);}
@@ -296,7 +301,7 @@ animation:boraBounce 1.8s cubic-bezier(.25,.9,.3,1);
 /* =====================================================
    PROFILE
 ===================================================== */
-#profile{background:#111}
+#profile{background:#111;scroll-margin-top:40px}
 
 .profile-wrap{
   display:flex;
