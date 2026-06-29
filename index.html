@@ -844,9 +844,9 @@ ul{list-style:none}
 }
 .ai-modal-close:hover{color:#fff}
 
-.ai-modal-body{position:relative;height:68vh}
+.ai-modal-body{position:relative}
 .ai-pages{
-  display:flex;height:100%;
+  display:flex;
   overflow-x:auto;overflow-y:hidden;
   scroll-snap-type:x mandatory;scroll-behavior:smooth;
   cursor:grab;scrollbar-width:none;
@@ -856,11 +856,13 @@ ul{list-style:none}
 .ai-pages.dragging .ai-cell{pointer-events:none}
 .ai-page{
   flex:0 0 100%;scroll-snap-align:start;
-  overflow-y:auto;padding:18px;
+  padding:14px;
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  grid-auto-rows:auto;
-  gap:10px;align-content:start;
+  grid-template-rows:repeat(3,minmax(0,1fr));
+  gap:8px;
+  /* 패널 너비 기준으로 3×3 정사각형이 딱 맞도록 */
+  /* 높이는 JS로 동적 세팅 */
 }
 .ai-cell{
   aspect-ratio:1/1;
@@ -870,13 +872,12 @@ ul{list-style:none}
   display:flex;
   align-items:center;
   justify-content:center;
+  min-width:0;min-height:0;
 }
 .ai-cell img{
-  max-width:100%;
-  max-height:100%;
-  width:auto;
-  height:auto;
-  object-fit:contain !important;
+  width:100%;
+  height:100%;
+  object-fit:contain;
   display:block;
   -webkit-user-drag:none;user-select:none;
 }
@@ -1134,7 +1135,8 @@ ul{list-style:none}
 
   .ai-inner{grid-template-columns:1fr;gap:40px}
 
-  .ai-page{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .ai-modal-panel{max-width:98vw}
+  .ai-page{grid-template-columns:repeat(3,minmax(0,1fr));}
 
   .banner-grid{grid-template-columns:repeat(3,1fr)}
 }
@@ -1147,8 +1149,8 @@ ul{list-style:none}
   .skills-grid{gap:14px}
   .history-list li{grid-template-columns:1fr;gap:3px}
   .ai-slide{width:70%}
-  .ai-modal-body{height:62vh}
-  .ai-page{grid-template-columns:1fr;padding:12px;gap:7px}
+  .ai-modal-body{}
+  .ai-page{grid-template-columns:repeat(3,minmax(0,1fr));padding:8px;gap:5px}
 }
 </style>
 </head>
@@ -2015,6 +2017,17 @@ document.addEventListener('keydown', e => {
   const next    = modal.querySelector('.ai-page-arrow.next');
   const PER_PAGE = 9;   // 3 × 3
 
+  function setBodyHeight(){
+    const panel = modal.querySelector('.ai-modal-panel');
+    const head  = modal.querySelector('.ai-modal-head');
+    const dots  = modal.querySelector('.ai-dots');
+    // 패널 너비에서 패딩(14px×2) 빼고 gap(8px×2) 빼면 셀 1개 너비
+    const panelW = panel.clientWidth;
+    const cellW  = (panelW - 28 - 16) / 3;   // 3열, 패딩14px×2, gap8px×2
+    const gridH  = cellW * 3 + 8 * 2 + 28;   // 3행 + gap×2 + 패딩28px
+    pagesEl.style.height = gridH + 'px';
+  }
+
   function buildGrid(images){
     pagesEl.innerHTML = '';
     dotsEl.innerHTML  = '';
@@ -2068,7 +2081,8 @@ document.addEventListener('keydown', e => {
     modal.classList.add('open');
     modal.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
-    updateNav();
+    // 렌더 후 높이 계산 (requestAnimationFrame으로 레이아웃 확정 후)
+    requestAnimationFrame(() => { setBodyHeight(); updateNav(); });
   }
   function close(){
     modal.classList.remove('open');
@@ -2084,7 +2098,7 @@ document.addEventListener('keydown', e => {
   next.addEventListener('click', () =>
     pagesEl.scrollBy({ left:  pagesEl.clientWidth, behavior: 'smooth' }));
   pagesEl.addEventListener('scroll', updateNav, { passive: true });
-  window.addEventListener('resize', updateNav);
+  window.addEventListener('resize', () => { setBodyHeight(); updateNav(); });
 
   modal.querySelectorAll('[data-ai-close]').forEach(el =>
     el.addEventListener('click', close));
