@@ -879,37 +879,42 @@ ul{list-style:none}
   overflow:hidden;
 }
 
-/* 가로 슬라이드 래퍼 */
-.ai-pages{
-  display:flex;
-  width:100%;height:100%;
-  overflow-x:auto;
-  overflow-y:hidden;
-  scroll-snap-type:x mandatory;
-  scroll-behavior:smooth;
-  cursor:grab;
-  scrollbar-width:none;
-}
-.ai-pages::-webkit-scrollbar{display:none}
-.ai-pages.dragging{cursor:grabbing;scroll-behavior:auto}
-.ai-pages.dragging .ai-cell{pointer-events:none}
-
-/* 각 페이지: 가로 100% 고정, 세로는 body 높이 꽉 채우고 세로 스크롤 */
-.ai-page{
-  flex:0 0 100%;
-  height:100%;
-  scroll-snap-align:start;
-  overflow-x:hidden;
+/* 바디: 세로 스크롤 */
+.ai-modal-body{
+  flex:1 1 0;
+  min-height:0;
+  position:relative;
   overflow-y:auto;
+  overflow-x:hidden;
   scrollbar-width:thin;
   scrollbar-color:#8B5CF6 #111;
+}
+.ai-modal-body::-webkit-scrollbar{width:5px}
+.ai-modal-body::-webkit-scrollbar-track{background:#111}
+.ai-modal-body::-webkit-scrollbar-thumb{background:#8B5CF6;border-radius:3px}
+
+/* 단일 그리드 — 모든 이미지를 3열로, 세로로 쭉 */
+.ai-grid{
   padding:12px;
-  box-sizing:border-box;
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  grid-auto-rows:calc((min(820px,94vw) - 24px - 16px) / 3);
   gap:8px;
-  align-content:start;
+}
+
+/* 셀: aspect-ratio로 정사각형 */
+.ai-cell{
+  aspect-ratio:1/1;
+  background:#1a1a1a;
+  border-radius:4px;
+  overflow:hidden;
+  position:relative;
+}
+.ai-cell img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:contain;
+  display:block;
+  -webkit-user-drag:none;user-select:none;
 }
 .ai-page::-webkit-scrollbar{width:5px}
 .ai-page::-webkit-scrollbar-track{background:#111}
@@ -2069,112 +2074,60 @@ document.addEventListener('keydown', e => {
 })();
 
 /* =====================================================
-   7. AI MORE VIEW — 3×3 그리드 모달 (9장 초과 시 좌우 페이지)
+   7. AI MORE VIEW — 3열 세로 스크롤 그리드
 ===================================================== */
 (function(){
-  const modal  = document.getElementById('aiModal');
+  const modal   = document.getElementById('aiModal');
   if (!modal) return;
-  const pagesEl = document.getElementById('aiPages');
+  const bodyEl  = modal.querySelector('.ai-modal-body');
   const dotsEl  = document.getElementById('aiDots');
   const numEl   = document.getElementById('aiModalNum');
   const titleEl = document.getElementById('aiModalTitle');
   const prev    = modal.querySelector('.ai-page-arrow.prev');
   const next    = modal.querySelector('.ai-page-arrow.next');
-  const PER_PAGE = 9;   // 3 × 3
 
-  function buildGrid(images){
-    pagesEl.innerHTML = '';
-    dotsEl.innerHTML  = '';
-    let pageCount = 0;
-    for (let i = 0; i < images.length; i += PER_PAGE){
-      const group = images.slice(i, i + PER_PAGE);
-      const page = document.createElement('div');
-      page.className = 'ai-page';
-      page.innerHTML = group.map(src => `
-        <div class="ai-cell">
-          <img src="${src}" alt="" style="width:100%;height:100%;object-fit:contain;background:#1a1a1a;display:block;" onerror="this.closest('.ai-cell').style.display='none'"/>
-        </div>`).join('');
-      pagesEl.appendChild(page);
-      pageCount++;
-    }
-    // 페이지가 2개 이상일 때만 점/화살표 노출
-    const multi = pageCount > 1;
-    prev.classList.toggle('hidden', !multi);
-    next.classList.toggle('hidden', !multi);
-    if (multi){
-      for (let p = 0; p < pageCount; p++){
-        const dot = document.createElement('button');
-        dot.className = 'ai-dot' + (p === 0 ? ' active' : '');
-        dot.type = 'button';
-        dot.addEventListener('click', () => {
-          pagesEl.scrollTo({ left: pagesEl.clientWidth * p, behavior: 'smooth' });
-        });
-        dotsEl.appendChild(dot);
-      }
-    }
-    updateNav();
-  }
-
-  function updateNav(){
-    const w = pagesEl.clientWidth || 1;
-    const idx = Math.round(pagesEl.scrollLeft / w);
-    const maxScroll = pagesEl.scrollWidth - pagesEl.clientWidth - 1;
-    prev.disabled = pagesEl.scrollLeft <= 0;
-    next.disabled = pagesEl.scrollLeft >= maxScroll;
-    dotsEl.querySelectorAll('.ai-dot').forEach((d, i) =>
-      d.classList.toggle('active', i === idx));
-  }
+  // 화살표/닷 숨김 (단일 세로 그리드이므로 불필요)
+  if(prev) prev.classList.add('hidden');
+  if(next) next.classList.add('hidden');
+  if(dotsEl) dotsEl.style.display = 'none';
 
   function open(btn){
     numEl.textContent   = btn.getAttribute('data-num')   || 'AI Creative';
     titleEl.textContent = btn.getAttribute('data-title') || 'AI 기반 이미지';
     const images = (btn.getAttribute('data-images') || '')
       .split(',').map(s => s.trim()).filter(Boolean);
-    buildGrid(images);
-    pagesEl.scrollLeft = 0;
+
+    // 단일 그리드 생성
+    const grid = document.createElement('div');
+    grid.className = 'ai-grid';
+    grid.innerHTML = images.map(src => `
+      <div class="ai-cell">
+        <img src="${src}" alt="" onerror="this.closest('.ai-cell').style.display='none'"/>
+      </div>`).join('');
+
+    bodyEl.innerHTML = '';
+    bodyEl.appendChild(grid);
+    bodyEl.scrollTop = 0;
+
     modal.classList.add('open');
     modal.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
-    requestAnimationFrame(() => { updateNav(); });
   }
+
   function close(){
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden','true');
     document.body.style.overflow = '';
+    bodyEl.innerHTML = '';
   }
 
   document.querySelectorAll('.ai-more').forEach(btn =>
     btn.addEventListener('click', () => open(btn)));
 
-  prev.addEventListener('click', () =>
-    pagesEl.scrollBy({ left: -pagesEl.clientWidth, behavior: 'smooth' }));
-  next.addEventListener('click', () =>
-    pagesEl.scrollBy({ left:  pagesEl.clientWidth, behavior: 'smooth' }));
-  pagesEl.addEventListener('scroll', updateNav, { passive: true });
-  window.addEventListener('resize', () => { updateNav(); });
-
   modal.querySelectorAll('[data-ai-close]').forEach(el =>
     el.addEventListener('click', close));
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && modal.classList.contains('open')) close();
-  });
-
-  // 마우스 드래그로 페이지 넘기기
-  let down = false, sx = 0, ss = 0, mv = false;
-  pagesEl.addEventListener('mousedown', e => {
-    down = true; mv = false; sx = e.pageX; ss = pagesEl.scrollLeft;
-    pagesEl.classList.add('dragging');
-  });
-  window.addEventListener('mousemove', e => {
-    if (!down) return;
-    const dx = e.pageX - sx;
-    if (Math.abs(dx) > 4) mv = true;
-    pagesEl.scrollLeft = ss - dx;
-  });
-  window.addEventListener('mouseup', () => {
-    if (!down) return;
-    down = false;
-    pagesEl.classList.remove('dragging');
   });
 })();
 
