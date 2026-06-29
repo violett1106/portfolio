@@ -272,47 +272,36 @@ ul{list-style:none}
 }
 
 
+
 .hero-bora{
-display:flex;
-justify-content:center;
-align-items:center;
-margin:18px 0 36px;
-animation:boraIntro .9s cubic-bezier(.2,.9,.25,1) forwards;
+display:flex;justify-content:center;align-items:center;gap:0;
+margin:20px 0 40px;
 }
-.hero-bora img{
-width:clamp(220px,24vw,380px);
-height:auto;
-filter:drop-shadow(0 0 18px rgba(139,92,246,.35)) drop-shadow(0 0 48px rgba(139,92,246,.22));
-animation:boraFloat 3.8s ease-in-out infinite;
-transition:transform .35s ease,filter .35s ease;
-transform-origin:center;
+.bora-letter{
+width:clamp(55px,6vw,95px);height:auto;opacity:0;
+transform:translateY(35px) scale(.85);
+transition:transform .3s ease;
 }
-.hero-bora img:hover{
-transform:scale(1.03) rotate(-1deg);
-filter:drop-shadow(0 0 26px rgba(139,92,246,.45)) drop-shadow(0 0 64px rgba(139,92,246,.30));
-}
-.hero-scroll{
-animation:scrollFloat 2.5s ease-in-out infinite;
-}
-@keyframes boraIntro{
-0%{opacity:0;transform:translateY(35px) scale(.88);}
-70%{opacity:1;transform:translateY(-8px) scale(1.03);}
+.bora-letter:hover{transform:scale(1.03);}
+.b{animation:letterIntro .7s .1s forwards,float1 3.8s ease-in-out .8s infinite;}
+.o{animation:letterIntro .7s .28s forwards,float2 4.2s ease-in-out 1s infinite;}
+.r{animation:letterIntro .7s .46s forwards,float3 3.6s ease-in-out 1.2s infinite;}
+.a{animation:letterIntro .7s .64s forwards,float4 4.5s ease-in-out 1.4s infinite;}
+.hero-scroll{animation:scrollFloat 2.5s ease-in-out infinite;}
+@keyframes letterIntro{
+0%{opacity:0;transform:translateY(35px) scale(.85);}
+70%{opacity:1;transform:translateY(-8px) scale(1.05);}
 100%{opacity:1;transform:translateY(0) scale(1);}
 }
-@keyframes boraFloat{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(-10px);}
-}
+@keyframes float1{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@keyframes float2{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+@keyframes float3{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+@keyframes float4{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
 @keyframes scrollFloat{
 0%,100%{transform:translateY(0);}
 50%{transform:translateY(8px);}
 }
-35%{transform:translateY(0) scaleY(.88) scaleX(1.08);}
-55%{transform:translateY(-42px);}
-72%{transform:translateY(0) scale(.98);}
-88%{transform:translateY(-12px);}
-100%{transform:translateY(0);}
-}
+
 
 /* =====================================================
    PROFILE
@@ -1305,7 +1294,10 @@ animation:scrollFloat 2.5s ease-in-out infinite;
         <span class="line accent sub-title">WEB DESIGNER</span>
       </h1>
       <div class="hero-bora">
-  <img src="portfolio_webp_optimized/bora_2.png" alt="BORA">
+    <img src="https://raw.githubusercontent.com/violett1106/portfolio/main/portfolio_webp_optimized/b.png" class="bora-letter b" alt="B">
+    <img src="https://raw.githubusercontent.com/violett1106/portfolio/main/portfolio_webp_optimized/o.png" class="bora-letter o" alt="O">
+    <img src="https://raw.githubusercontent.com/violett1106/portfolio/main/portfolio_webp_optimized/r.png" class="bora-letter r" alt="R">
+    <img src="https://raw.githubusercontent.com/violett1106/portfolio/main/portfolio_webp_optimized/a.png" class="bora-letter a" alt="A">
 </div>
 <a class="hero-scroll" href="#profile">
         <span>Scroll</span>
