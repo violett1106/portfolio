@@ -816,22 +816,23 @@ ul{list-style:none}
 .ai-modal{
   position:fixed;inset:0;z-index:400;
   display:none;align-items:center;justify-content:center;
-  padding:32px 18px;
+  padding:24px 16px;
 }
 .ai-modal.open{display:flex}
-.ai-modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.85)}
+.ai-modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.88)}
 .ai-modal-panel{
   position:relative;z-index:1;
-  width:100%;max-width:900px;
-  max-height:92vh;
+  width:min(860px,95vw);
   background:#0e0e0e;
   border:1px solid rgba(255,255,255,0.08);
   border-radius:8px;
-  display:flex;flex-direction:column;overflow:hidden;
+  display:flex;flex-direction:column;
+  overflow:hidden;
 }
 .ai-modal-head{
+  flex:0 0 auto;
   display:flex;align-items:flex-start;justify-content:space-between;
-  padding:18px 22px;border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.06);
 }
 .ai-modal-head .amh-num{
   font-size:9px;font-weight:700;letter-spacing:0.2em;
@@ -844,9 +845,16 @@ ul{list-style:none}
 }
 .ai-modal-close:hover{color:#fff}
 
-.ai-modal-body{position:relative}
+/* body — aspect-ratio:1/1 로 패널 너비와 동일한 높이 확보 → 9칸이 정확히 들어감 */
+.ai-modal-body{
+  flex:0 0 auto;
+  position:relative;
+  aspect-ratio:1/1;
+  overflow:hidden;
+}
 .ai-pages{
   display:flex;
+  width:100%;height:100%;
   overflow-x:auto;overflow-y:hidden;
   scroll-snap-type:x mandatory;scroll-behavior:smooth;
   cursor:grab;scrollbar-width:none;
@@ -855,17 +863,17 @@ ul{list-style:none}
 .ai-pages.dragging{cursor:grabbing;scroll-behavior:auto}
 .ai-pages.dragging .ai-cell{pointer-events:none}
 .ai-page{
-  flex:0 0 100%;scroll-snap-align:start;
-  padding:14px;
+  flex:0 0 100%;
+  height:100%;
+  scroll-snap-align:start;
+  padding:12px;
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  grid-template-rows:repeat(3,minmax(0,1fr));
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:repeat(3,1fr);
   gap:8px;
-  /* 패널 너비 기준으로 3×3 정사각형이 딱 맞도록 */
-  /* 높이는 JS로 동적 세팅 */
+  box-sizing:border-box;
 }
 .ai-cell{
-  aspect-ratio:1/1;
   background:#1a1a1a;
   border-radius:4px;
   overflow:hidden;
@@ -1135,8 +1143,17 @@ ul{list-style:none}
 
   .ai-inner{grid-template-columns:1fr;gap:40px}
 
-  .ai-modal-panel{max-width:98vw}
-  .ai-page{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .ai-modal{padding:12px 8px}
+  .ai-modal-panel{width:98vw}
+  /* 화면이 좁을 때 패널+헤더+닷이 뷰포트를 넘지 않도록 body를 축소 */
+  .ai-modal-body{
+    aspect-ratio:unset;
+    /* 뷰포트 높이 - 헤더(~56px) - 닷(~42px) - 모달패딩(24px) = 남은 높이 */
+    height:calc(98vw); /* 패널 너비 = 98vw이므로 그냥 98vw로 정사각형 */
+    max-height:calc(100svh - 56px - 42px - 24px);
+  }
+  .ai-page{padding:8px;gap:5px}
+  .ai-modal-panel{max-width:none}
 
   .banner-grid{grid-template-columns:repeat(3,1fr)}
 }
@@ -1149,7 +1166,6 @@ ul{list-style:none}
   .skills-grid{gap:14px}
   .history-list li{grid-template-columns:1fr;gap:3px}
   .ai-slide{width:70%}
-  .ai-modal-body{}
   .ai-page{grid-template-columns:repeat(3,minmax(0,1fr));padding:8px;gap:5px}
 }
 </style>
@@ -2017,17 +2033,6 @@ document.addEventListener('keydown', e => {
   const next    = modal.querySelector('.ai-page-arrow.next');
   const PER_PAGE = 9;   // 3 × 3
 
-  function setBodyHeight(){
-    const panel = modal.querySelector('.ai-modal-panel');
-    const head  = modal.querySelector('.ai-modal-head');
-    const dots  = modal.querySelector('.ai-dots');
-    // 패널 너비에서 패딩(14px×2) 빼고 gap(8px×2) 빼면 셀 1개 너비
-    const panelW = panel.clientWidth;
-    const cellW  = (panelW - 28 - 16) / 3;   // 3열, 패딩14px×2, gap8px×2
-    const gridH  = cellW * 3 + 8 * 2 + 28;   // 3행 + gap×2 + 패딩28px
-    pagesEl.style.height = gridH + 'px';
-  }
-
   function buildGrid(images){
     pagesEl.innerHTML = '';
     dotsEl.innerHTML  = '';
@@ -2081,8 +2086,7 @@ document.addEventListener('keydown', e => {
     modal.classList.add('open');
     modal.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
-    // 렌더 후 높이 계산 (requestAnimationFrame으로 레이아웃 확정 후)
-    requestAnimationFrame(() => { setBodyHeight(); updateNav(); });
+    requestAnimationFrame(() => { updateNav(); });
   }
   function close(){
     modal.classList.remove('open');
@@ -2098,7 +2102,7 @@ document.addEventListener('keydown', e => {
   next.addEventListener('click', () =>
     pagesEl.scrollBy({ left:  pagesEl.clientWidth, behavior: 'smooth' }));
   pagesEl.addEventListener('scroll', updateNav, { passive: true });
-  window.addEventListener('resize', () => { setBodyHeight(); updateNav(); });
+  window.addEventListener('resize', () => { updateNav(); });
 
   modal.querySelectorAll('[data-ai-close]').forEach(el =>
     el.addEventListener('click', close));
