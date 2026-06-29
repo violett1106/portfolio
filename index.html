@@ -823,6 +823,8 @@ ul{list-style:none}
 .ai-modal-panel{
   position:relative;z-index:1;
   width:min(860px,95vw);
+  /* 헤더≈56px + body + 닷≈42px 가 92vh 안에 들어와야 함 */
+  max-height:92vh;
   background:#0e0e0e;
   border:1px solid rgba(255,255,255,0.08);
   border-radius:8px;
@@ -845,12 +847,12 @@ ul{list-style:none}
 }
 .ai-modal-close:hover{color:#fff}
 
-/* body — aspect-ratio:1/1 로 패널 너비와 동일한 높이 확보 → 9칸이 정확히 들어감 */
+/* body — flex:1로 남은 공간 전부 차지, 내부 pages도 height:100% */
 .ai-modal-body{
-  flex:0 0 auto;
+  flex:1 1 0;
   position:relative;
-  aspect-ratio:1/1;
   overflow:hidden;
+  min-height:0;
 }
 .ai-pages{
   display:flex;
@@ -864,14 +866,20 @@ ul{list-style:none}
 .ai-pages.dragging .ai-cell{pointer-events:none}
 .ai-page{
   flex:0 0 100%;
-  height:100%;
+  /* 높이 auto + 세로 스크롤 → 화면이 작아도 9장 모두 접근 가능 */
+  height:auto;
+  min-height:100%;
   scroll-snap-align:start;
   padding:12px;
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  grid-template-rows:repeat(3,1fr);
+  /* 셀 높이 = 셀 너비 (정사각형) : (패널너비 - 패딩24 - gap16) / 3 */
+  grid-auto-rows:calc((min(860px, 95vw) - 24px - 16px) / 3);
   gap:8px;
   box-sizing:border-box;
+  overflow-y:auto;
+  scrollbar-width:thin;
+  scrollbar-color:#8B5CF6 #1a1a1a;
 }
 .ai-cell{
   background:#1a1a1a;
