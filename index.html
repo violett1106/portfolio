@@ -811,6 +811,83 @@ transition:transform .3s ease;
   pointer-events:none;
 }
 
+/* 영상 카드 — 원본 비율로 보기 버튼 */
+.ai-item-expand{
+  position:absolute;top:8px;right:8px;z-index:5;
+  width:26px;height:26px;border-radius:50%;
+  border:none;cursor:pointer;
+  background:rgba(0,0,0,0.55);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(-2px);
+  transition:opacity 0.25s,transform 0.25s,background 0.25s;
+}
+.ai-item-expand svg{width:12px;height:12px;display:block}
+.ai-item:hover .ai-item-expand,
+.ai-item-expand:focus-visible{opacity:1;transform:translateY(0)}
+.ai-item-expand:hover{background:#8B5CF6}
+@media (hover:none){
+  .ai-item-expand{opacity:1}
+}
+
+/* 영상 원본비율 라이트박스 */
+.video-lightbox{
+  position:fixed;inset:0;z-index:500;
+  display:none;
+  align-items:center;justify-content:center;
+}
+.video-lightbox.open{display:flex}
+.video-lightbox-backdrop{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,0.9);
+}
+.video-lightbox-panel{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  max-width:92vw;max-height:90vh;
+}
+.video-lightbox-label{
+  align-self:flex-start;
+  font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
+  color:#fff;background:rgba(139,92,246,0.9);
+  padding:4px 10px;border-radius:2px;
+}
+.video-lightbox-panel video{
+  display:block;
+  width:auto;height:auto;
+  max-width:92vw;max-height:78vh;
+  border-radius:8px;
+  background:#000;
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.video-lightbox-close{
+  position:absolute;top:-40px;right:-6px;z-index:2;
+  width:34px;height:34px;border-radius:50%;
+  border:none;cursor:pointer;
+  background:rgba(255,255,255,0.08);color:#fff;font-size:20px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.25s;
+}
+.video-lightbox-close:hover{background:#8B5CF6}
+.video-lightbox-arrow{
+  position:fixed;top:50%;transform:translateY(-50%);
+  z-index:2;width:42px;height:42px;border-radius:50%;
+  border:none;cursor:pointer;
+  background:rgba(255,255,255,0.08);color:#fff;font-size:18px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.25s,opacity 0.25s;
+}
+.video-lightbox-arrow:hover{background:#8B5CF6}
+.video-lightbox-arrow.prev{left:24px}
+.video-lightbox-arrow.next{right:24px}
+.video-lightbox-arrow[disabled]{opacity:0.25;pointer-events:none}
+@media (max-width:640px){
+  .video-lightbox-close{top:auto;bottom:calc(78vh + 12px);right:0}
+  .video-lightbox-arrow{width:34px;height:34px;font-size:15px}
+  .video-lightbox-arrow.prev{left:10px}
+  .video-lightbox-arrow.next{right:10px}
+}
+
 /* 파일 없을 때 보이는 자리(플레이스홀더) */
 .ai-ph{
   position:absolute;inset:0;z-index:1;
@@ -1830,6 +1907,9 @@ transition:transform .3s ease;
           <div class="ai-video-track" id="aiVideoTrack">
             <div class="ai-item">
               <span class="ai-tag">Video</span>
+              <button class="ai-item-expand" type="button" data-video="portfolio_webp_optimized/kit.mp4" data-label="KIT" aria-label="원본 비율로 보기">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+              </button>
               <div class="ai-ph">KIT<small>kit.mp4</small></div>
               <video src="portfolio_webp_optimized/kit.mp4"
                      autoplay muted loop playsinline controls preload="auto"
@@ -1837,6 +1917,9 @@ transition:transform .3s ease;
             </div>
             <div class="ai-item">
               <span class="ai-tag">Video</span>
+              <button class="ai-item-expand" type="button" data-video="portfolio_webp_optimized/llight1.mp4" data-label="LIGHT" aria-label="원본 비율로 보기">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+              </button>
               <div class="ai-ph">LIGHT<small>llight1.mp4</small></div>
               <video src="portfolio_webp_optimized/llight1.mp4"
                      autoplay muted loop playsinline controls preload="auto"
@@ -1844,6 +1927,9 @@ transition:transform .3s ease;
             </div>
             <div class="ai-item">
               <span class="ai-tag">Video</span>
+              <button class="ai-item-expand" type="button" data-video="portfolio_webp_optimized/video1.mp4" data-label="VID 1" aria-label="원본 비율로 보기">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+              </button>
               <div class="ai-ph">VID 1<small>vid1.mp4</small></div>
               <video src="portfolio_webp_optimized/video1.mp4"
                      autoplay muted loop playsinline controls preload="auto"
@@ -1851,6 +1937,9 @@ transition:transform .3s ease;
             </div>
             <div class="ai-item">
               <span class="ai-tag">Video</span>
+              <button class="ai-item-expand" type="button" data-video="portfolio_webp_optimized/video2.mp4" data-label="VID 2" aria-label="원본 비율로 보기">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+              </button>
               <div class="ai-ph">VID 2<small>vid2.mp4</small></div>
               <video src="portfolio_webp_optimized/video2.mp4"
                      autoplay muted loop playsinline controls preload="auto"
@@ -1919,7 +2008,19 @@ transition:transform .3s ease;
   </div>
 </div>
 
-<!-- AI 이미지 그리드 모달 (3×3, 9장 초과 시 좌우 페이지) -->
+<!-- AI 영상 원본비율 라이트박스 -->
+<div class="video-lightbox" id="videoLightbox" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="video-lightbox-backdrop" data-video-close></div>
+  <button class="video-lightbox-arrow prev" type="button" data-video-prev aria-label="이전 영상">‹</button>
+  <div class="video-lightbox-panel">
+    <button class="video-lightbox-close" type="button" data-video-close aria-label="닫기">&times;</button>
+    <p class="video-lightbox-label" id="videoLightboxLabel">KIT</p>
+    <video id="videoLightboxPlayer" controls autoplay loop playsinline></video>
+  </div>
+  <button class="video-lightbox-arrow next" type="button" data-video-next aria-label="다음 영상">›</button>
+</div>
+
+
 <div class="ai-modal" id="aiModal" aria-hidden="true" role="dialog" aria-modal="true">
   <div class="ai-modal-backdrop" data-ai-close></div>
   <div class="ai-modal-panel">
@@ -2169,8 +2270,68 @@ document.addEventListener('keydown', e => {
 })();
 
 /* =====================================================
-   6. AI 사진 캐러셀 (좌우 넘기기 · 드래그)
+   5-c. AI 영상 — 원본 비율 라이트박스
 ===================================================== */
+(function(){
+  const lightbox = document.getElementById('videoLightbox');
+  if (!lightbox) return;
+  const player   = document.getElementById('videoLightboxPlayer');
+  const labelEl  = document.getElementById('videoLightboxLabel');
+  const btnPrev  = lightbox.querySelector('[data-video-prev]');
+  const btnNext  = lightbox.querySelector('[data-video-next]');
+  const triggers = Array.from(document.querySelectorAll('.ai-item-expand'));
+  let currentIndex = -1;
+
+  function openAt(index){
+    if (!triggers.length) return;
+    currentIndex = (index + triggers.length) % triggers.length;
+    const btn = triggers[currentIndex];
+    player.src = btn.dataset.video;
+    labelEl.textContent = btn.dataset.label || '';
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    player.currentTime = 0;
+    player.play().catch(() => {});
+  }
+
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    player.pause();
+    player.removeAttribute('src');
+    player.load();
+  }
+
+  triggers.forEach((btn, i) => {
+    // 드래그 캐러셀의 mousedown과 충돌하지 않도록 전파 차단
+    btn.addEventListener('mousedown', e => e.stopPropagation());
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      openAt(i);
+    });
+  });
+
+  lightbox.querySelectorAll('[data-video-close]').forEach(el => {
+    el.addEventListener('click', closeLightbox);
+  });
+  btnPrev.addEventListener('click', () => openAt(currentIndex - 1));
+  btnNext.addEventListener('click', () => openAt(currentIndex + 1));
+
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') openAt(currentIndex - 1);
+    if (e.key === 'ArrowRight') openAt(currentIndex + 1);
+  });
+
+  if (triggers.length < 2) {
+    btnPrev.style.display = 'none';
+    btnNext.style.display = 'none';
+  }
+})();
 (function(){
   const track = document.getElementById('aiTrack');
   if (!track) return;
