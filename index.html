@@ -747,21 +747,52 @@ transition:transform .3s ease;
 }
 .ai-skills-grid{gap:18px}
 
-/* 오른쪽: 영상 2개 (상단) */
-.ai-videos{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
+/* 오른쪽: 영상 캐러셀 (2개 이하 그리드 / 3개 이상 슬라이드) */
+.ai-video-carousel{
+  position:relative;
   margin-bottom:8px;
 }
+.ai-video-track{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  cursor:grab;
+}
+.ai-video-track::-webkit-scrollbar{display:none}
+.ai-video-track.dragging{cursor:grabbing;scroll-behavior:auto}
+.ai-video-track.dragging .ai-item{pointer-events:none}
+/* 기본: 2열 고정 (영상 2개 이하 → 캐러셀 불필요) */
+.ai-video-track .ai-item{
+  flex:0 0 calc(50% - 4px);
+  scroll-snap-align:start;
+}
+/* 3개 이상일 때 JS로 .has-many 클래스 추가 → 1.7개 보이게 */
+.ai-video-track.has-many .ai-item{
+  flex:0 0 calc(55% - 4px);
+}
+.ai-video-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  z-index:4;width:34px;height:34px;border-radius:50%;
+  border:none;cursor:pointer;
+  background:rgba(0,0,0,0.55);color:#fff;font-size:15px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.3s,opacity 0.4s;
+  opacity:0;pointer-events:none;
+}
+.ai-video-arrow.visible{opacity:1;pointer-events:auto}
+.ai-video-arrow:hover{background:#8B5CF6}
+.ai-video-arrow.prev{left:6px}
+.ai-video-arrow.next{right:6px}
+.ai-video-arrow[disabled]{opacity:0 !important;pointer-events:none}
 .ai-item{
   position:relative;overflow:hidden;
   background:#1e1e1e;
   aspect-ratio:9/16;
-  width:100%;
   transition:transform 0.4s;
-  /* iOS Safari fallback: aspect-ratio가 적용 안될 때 대비 */
-  min-height:200px;
 }
 .ai-item:hover{transform:scale(1.02)}
 .ai-item img,
@@ -811,9 +842,8 @@ transition:transform .3s ease;
 .ai-track.dragging .ai-slide{pointer-events:none}
 .ai-slide{
   flex:0 0 auto;
-  width:calc(50% - 4px);   /* 한 화면에 2장 */
+  width:calc((100% - 8px) / 2);   /* 한 화면에 2장 */
   aspect-ratio:1/1;
-  min-height:120px;
   scroll-snap-align:start;
   position:relative;overflow:hidden;background:#1e1e1e;
 }
@@ -1240,7 +1270,6 @@ transition:transform .3s ease;
   .ai-inner{grid-template-columns:1fr;gap:40px}
 
   .ai-modal-panel{width:98vw;height:88vh}
-  .ai-item{min-height:180px}
   .ai-page{
     grid-auto-rows:calc((98vw - 24px - 16px) / 3);
     padding:8px;gap:5px;
@@ -1256,12 +1285,8 @@ transition:transform .3s ease;
   .banner-grid{grid-template-columns:repeat(3,1fr)}
   .skills-grid{gap:14px}
   .history-list li{grid-template-columns:1fr;gap:3px}
-  .ai-slide{width:calc(70% - 4px)}
+  .ai-slide{width:70%}
   .ai-page{grid-template-columns:repeat(3,minmax(0,1fr));padding:8px;gap:5px}
-  /* iOS Safari: ai-item/ai-slide aspect-ratio 폴백 */
-  .ai-item{min-height:160px}
-  .ai-slide{min-height:130px}
-  .ai-videos{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
@@ -1495,7 +1520,7 @@ transition:transform .3s ease;
     <article class="work-item inline"
              data-num="Portfolio Page.1"
              data-title="다브츠리빙 오로라 오브 펜던트 상세페이지"
-             data-images="portfolio_webp_optimized/page1%281%29.webp,portfolio_webp_optimized/page1%282%29.webp,portfolio_webp_optimized/page1%283%29.webp,portfolio_webp_optimized/page1%284%29.webp,portfolio_webp_optimized/page1%285%29.webp">
+             data-images="portfolio_webp_optimized/page1(1).webp,portfolio_webp_optimized/page1(2).webp,portfolio_webp_optimized/page1(3).webp,portfolio_webp_optimized/page1(4).webp,portfolio_webp_optimized/page1(5).webp">
       <div class="work-meta reveal">
         <p class="work-num">Portfolio Page.1</p>
         <h2 class="work-title">다브츠리빙 &nbsp; 오로라 오브 펜던트 &nbsp; 상세페이지</h2>
@@ -1536,11 +1561,11 @@ transition:transform .3s ease;
         <p class="longview-label"><span class="dot"></span>상세페이지 전체 · 스크롤하여 보기</p>
         <div class="work-longview-wrap">
                     <div class="work-longview">
-            <img class="lv-img" src="portfolio_webp_optimized/page1%281%29.webp" alt="오로라 오브 펜던트 상세페이지 01" onerror="this.style.display='none'"/>
-            <img class="lv-img" src="portfolio_webp_optimized/page1%282%29.webp" alt="오로라 오브 펜던트 상세페이지 02" onerror="this.style.display='none'"/>
-            <img class="lv-img" src="portfolio_webp_optimized/page1%283%29.webp" alt="오로라 오브 펜던트 상세페이지 03" onerror="this.style.display='none'"/>
-            <img class="lv-img" src="portfolio_webp_optimized/page1%284%29.webp" alt="오로라 오브 펜던트 상세페이지 04" onerror="this.style.display='none'"/>
-            <img class="lv-img" src="portfolio_webp_optimized/page1%285%29.webp" alt="오로라 오브 펜던트 상세페이지 05" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="portfolio_webp_optimized/page1(1).webp" alt="오로라 오브 펜던트 상세페이지 01" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="portfolio_webp_optimized/page1(2).webp" alt="오로라 오브 펜던트 상세페이지 02" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="portfolio_webp_optimized/page1(3).webp" alt="오로라 오브 펜던트 상세페이지 03" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="portfolio_webp_optimized/page1(4).webp" alt="오로라 오브 펜던트 상세페이지 04" onerror="this.style.display='none'"/>
+            <img class="lv-img" src="portfolio_webp_optimized/page1(5).webp" alt="오로라 오브 펜던트 상세페이지 05" onerror="this.style.display='none'"/>
           </div>
         </div>
       </div>
@@ -1799,22 +1824,36 @@ transition:transform .3s ease;
       <!-- 오른쪽: 영상 2개 + 사진 캐러셀 -->
       <div class="ai-right reveal">
 
-        <!-- 영상 2개 -->
-        <div class="ai-videos">
-          <div class="ai-item">
-            <span class="ai-tag">Video</span>
-            <div class="ai-ph">KIT<small>kit.mp4</small></div>
-            <video src="portfolio_webp_optimized/kit.mp4"
-                   autoplay muted loop playsinline controls preload="auto"
-                   onerror="this.style.display='none'"></video>
+        <!-- 영상 캐러셀 (3개 이상이면 슬라이드 활성화) -->
+        <div class="ai-video-carousel">
+          <button class="ai-video-arrow prev" type="button" aria-label="이전 영상">‹</button>
+          <div class="ai-video-track" id="aiVideoTrack">
+            <div class="ai-item">
+              <span class="ai-tag">Video</span>
+              <div class="ai-ph">KIT<small>kit.mp4</small></div>
+              <video src="portfolio_webp_optimized/kit.mp4"
+                     autoplay muted loop playsinline controls preload="auto"
+                     onerror="this.style.display='none'"></video>
+            </div>
+            <div class="ai-item">
+              <span class="ai-tag">Video</span>
+              <div class="ai-ph">LIGHT<small>llight1.mp4</small></div>
+              <video src="portfolio_webp_optimized/llight1.mp4"
+                     autoplay muted loop playsinline controls preload="auto"
+                     onerror="this.style.display='none'"></video>
+            </div>
+            <!-- 영상 추가 시 여기에 .ai-item 블록을 복붙하세요 -->
+            <!-- 예시 (주석 해제해서 사용):
+            <div class="ai-item">
+              <span class="ai-tag">Video</span>
+              <div class="ai-ph">NEW<small>new.mp4</small></div>
+              <video src="portfolio_webp_optimized/new.mp4"
+                     autoplay muted loop playsinline controls preload="auto"
+                     onerror="this.style.display='none'"></video>
+            </div>
+            -->
           </div>
-          <div class="ai-item">
-            <span class="ai-tag">Video</span>
-            <div class="ai-ph">LIGHT<small>llight1.mp4</small></div>
-            <video src="portfolio_webp_optimized/llight1.mp4"
-                   autoplay muted loop playsinline controls preload="auto"
-                   onerror="this.style.display='none'"></video>
-          </div>
+          <button class="ai-video-arrow next" type="button" aria-label="다음 영상">›</button>
         </div>
 
         <!-- 사진: 좌우로 넘기는 캐러셀 -->
@@ -1822,8 +1861,8 @@ transition:transform .3s ease;
           <button class="ai-arrow prev" type="button" aria-label="이전">‹</button>
           <div class="ai-track" id="aiTrack">
             <div class="ai-slide"><div class="ai-ph">KIT<small>kit.png</small></div><img src="portfolio_webp_optimized/kit.png" alt="AI 생성 이미지 - KIT" loading="lazy" onerror="this.style.display='none'"/></div>
-            <div class="ai-slide"><div class="ai-ph">LIGHT 02<small>llight(2).png</small></div><img src="portfolio_webp_optimized/llight%282%29.png" alt="AI 생성 이미지 - LIGHT 02" loading="lazy" onerror="this.style.display='none'"/></div>
-            <div class="ai-slide"><div class="ai-ph">LIGHT 03<small>llight(3).png</small></div><img src="portfolio_webp_optimized/llight%283%29.png" alt="AI 생성 이미지 - LIGHT 03" loading="lazy" onerror="this.style.display='none'"/></div>
+            <div class="ai-slide"><div class="ai-ph">LIGHT 02<small>llight(2).png</small></div><img src="portfolio_webp_optimized/llight(2).png" alt="AI 생성 이미지 - LIGHT 02" loading="lazy" onerror="this.style.display='none'"/></div>
+            <div class="ai-slide"><div class="ai-ph">LIGHT 03<small>llight(3).png</small></div><img src="portfolio_webp_optimized/llight(3).png" alt="AI 생성 이미지 - LIGHT 03" loading="lazy" onerror="this.style.display='none'"/></div>
           </div>
           <button class="ai-arrow next" type="button" aria-label="다음">›</button>
         </div>
@@ -1831,7 +1870,7 @@ transition:transform .3s ease;
         <button class="ai-more" type="button"
                 data-num="AI Creative"
                 data-title="AI 기반 이미지 · 영상 제작"
-                data-images="portfolio_webp_optimized/Ai_img%281%29.png,portfolio_webp_optimized/Ai_img%282%29.png,portfolio_webp_optimized/Ai_img%283%29.png,portfolio_webp_optimized/Ai_img%284%29.png,portfolio_webp_optimized/Ai_img%285%29.png,portfolio_webp_optimized/Ai_img%286%29.png,portfolio_webp_optimized/Ai_img%287%29.png,portfolio_webp_optimized/Ai_img%288%29.png,portfolio_webp_optimized/Ai_img%289%29.png,portfolio_webp_optimized/ai_img2%281%29.png,portfolio_webp_optimized/ai_img2%282%29.png,portfolio_webp_optimized/ai_img2%283%29.png,portfolio_webp_optimized/ai_img2%284%29.png,portfolio_webp_optimized/ai_img2%285%29.png,portfolio_webp_optimized/ai_img2%286%29.png,portfolio_webp_optimized/ai_img2%287%29.png,portfolio_webp_optimized/ai_img2%288%29.png,portfolio_webp_optimized/ai_img2%289%29.png">
+                data-images="portfolio_webp_optimized/Ai_img(1).png,portfolio_webp_optimized/Ai_img(2).png,portfolio_webp_optimized/Ai_img(3).png,portfolio_webp_optimized/Ai_img(4).png,portfolio_webp_optimized/Ai_img(5).png,portfolio_webp_optimized/Ai_img(6).png,portfolio_webp_optimized/Ai_img(7).png,portfolio_webp_optimized/Ai_img(8).png,portfolio_webp_optimized/Ai_img(9).png,portfolio_webp_optimized/ai_img2(1).png,portfolio_webp_optimized/ai_img2(2).png,portfolio_webp_optimized/ai_img2(3).png,portfolio_webp_optimized/ai_img2(4).png,portfolio_webp_optimized/ai_img2(5).png,portfolio_webp_optimized/ai_img2(6).png,portfolio_webp_optimized/ai_img2(7).png,portfolio_webp_optimized/ai_img2(8).png,portfolio_webp_optimized/ai_img2(9).png">
           MORE VIEW +
         </button>
 
@@ -2070,6 +2109,60 @@ detailModal.querySelectorAll('[data-close]').forEach(el => {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && detailModal.classList.contains('open')) closeDetail();
 });
+
+/* =====================================================
+   5-b. AI 영상 캐러셀 (3개 이상이면 화살표 + 슬라이드)
+===================================================== */
+(function(){
+  const track = document.getElementById('aiVideoTrack');
+  if (!track) return;
+  const wrap  = track.closest('.ai-video-carousel');
+  const prev  = wrap.querySelector('.ai-video-arrow.prev');
+  const next  = wrap.querySelector('.ai-video-arrow.next');
+  const items = track.querySelectorAll('.ai-item');
+
+  // 3개 이상이면 슬라이드 모드 ON
+  if (items.length >= 3) {
+    track.classList.add('has-many');
+    prev.classList.add('visible');
+    next.classList.add('visible');
+  }
+
+  const step = () => Math.round(track.clientWidth * 0.58);
+
+  function updateArrows(){
+    if (items.length < 3) return;
+    const maxScroll = track.scrollWidth - track.clientWidth - 1;
+    prev.disabled = track.scrollLeft <= 0;
+    next.disabled = track.scrollLeft >= maxScroll;
+  }
+
+  prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+  next.addEventListener('click', () => track.scrollBy({ left:  step(), behavior: 'smooth' }));
+  track.addEventListener('scroll', updateArrows, { passive: true });
+  window.addEventListener('resize', updateArrows);
+  updateArrows();
+
+  // 드래그
+  let isDown = false, startX = 0, startScroll = 0, moved = false;
+  track.addEventListener('mousedown', e => {
+    isDown = true; moved = false;
+    startX = e.pageX; startScroll = track.scrollLeft;
+    track.classList.add('dragging');
+  });
+  window.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    const dx = e.pageX - startX;
+    if (Math.abs(dx) > 4) moved = true;
+    track.scrollLeft = startScroll - dx;
+  });
+  window.addEventListener('mouseup', () => {
+    if (!isDown) return;
+    isDown = false;
+    track.classList.remove('dragging');
+  });
+  track.addEventListener('click', e => { if (moved) e.preventDefault(); }, true);
+})();
 
 /* =====================================================
    6. AI 사진 캐러셀 (좌우 넘기기 · 드래그)
